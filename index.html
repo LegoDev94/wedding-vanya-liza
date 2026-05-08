@@ -391,10 +391,11 @@
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-  .audio-toggle .audio-icon-on  { display: block; }
-  .audio-toggle .audio-icon-off { display: none; }
-  .audio-toggle[data-audio-state="on"] .audio-icon-on  { display: none; }
-  .audio-toggle[data-audio-state="on"] .audio-icon-off { display: block; }
+  /* State convention: "on" = playing → waves icon; "off"/default = muted → X icon */
+  .audio-toggle .audio-icon-on  { display: none; }
+  .audio-toggle .audio-icon-off { display: block; }
+  .audio-toggle[data-audio-state="on"] .audio-icon-on  { display: block; }
+  .audio-toggle[data-audio-state="on"] .audio-icon-off { display: none; }
 
   /* Pulsing ring while audio is playing */
   .audio-toggle::before {
@@ -2320,24 +2321,46 @@
     }
   }
 
-  function setAudioState(on) {
+  // Update UI state ONLY (no audio side effects) — separates display from playback
+  function updateAudioUI(on) {
     if (!audioToggle) return;
     audioToggle.dataset.audioState = on ? "on" : "off";
     audioToggle.setAttribute("aria-label", on ? "Выключить фоновую музыку" : "Включить фоновую музыку");
+    if (on) startNotes(); else stopNotes();
+  }
+
+  // Try to actually play. Returns Promise<boolean> — true if playback succeeded.
+  function tryPlayAudio() {
+    if (!bgAudio || !bgAudio.querySelector("source")) {
+      return Promise.resolve(false);
+    }
+    const p = bgAudio.play();
+    if (p && typeof p.then === "function") {
+      return p.then(function () { return true; }).catch(function () { return false; });
+    }
+    return Promise.resolve(true);
+  }
+
+  // High-level intent: "turn audio on, sync UI to actual outcome"
+  function setAudioState(on) {
     if (on) {
-      if (bgAudio && bgAudio.querySelector("source")) {
-        bgAudio.play().catch(function(){});
-      }
-      getAudioCtx();
-      startNotes();
+      return tryPlayAudio().then(function (ok) {
+        if (ok) {
+          updateAudioUI(true);
+          getAudioCtx();
+          spawnNote();
+          setTimeout(spawnNote, 220);
+          try { sessionStorage.setItem("audio_on", "1"); } catch (e) {}
+        }
+        return ok;
+      });
     } else {
       if (bgAudio) bgAudio.pause();
-      stopNotes();
+      updateAudioUI(false);
+      spawnNote(); // farewell note
+      try { sessionStorage.setItem("audio_on", "0"); } catch (e) {}
+      return Promise.resolve(true);
     }
-    // Always spawn 1-2 notes on toggle for instant feedback
-    spawnNote();
-    if (on) setTimeout(spawnNote, 220);
-    try { sessionStorage.setItem("audio_on", on ? "1" : "0"); } catch (e) {}
   }
 
   if (audioToggle) {
@@ -2347,38 +2370,50 @@
     });
 
     // ---------- Auto-start audio on load ----------
-    // Default: audio ON (unless user explicitly muted in this session).
+    // Default: try ON unless user explicitly muted in this session.
     let wantsAudio = true;
     try {
       const stored = sessionStorage.getItem("audio_on");
       if (stored === "0") wantsAudio = false;
     } catch (e) {}
 
-    if (wantsAudio) {
-      // Set UI to "on" state and try to play immediately.
-      setAudioState(true);
-
-      // Browsers (Chrome/Safari/Firefox) block autoplay without user gesture.
-      // Fallback: install a one-shot listener that retries play() on first interaction.
-      if (bgAudio) {
-        const events = ["pointerdown", "touchstart", "keydown", "wheel", "scroll"];
-        const tryAutoplay = function () {
-          if (audioToggle.dataset.audioState === "on" && bgAudio.paused) {
-            bgAudio.play().catch(function () {});
-          }
-        };
-        const onceHandler = function () {
-          tryAutoplay();
+    if (wantsAudio && bgAudio) {
+      // Attempt to play immediately. UI only flips to "on" if browser allows.
+      setAudioState(true).then(function (ok) {
+        if (!ok) {
+          // Browser blocked autoplay. UI remains "off" (no lying notes).
+          // Install one-shot listeners — first user gesture (anywhere) starts audio.
+          const events = ["pointerdown", "touchstart", "keydown", "wheel", "scroll"];
+          let attempted = false;
+          const onGesture = function () {
+            if (attempted) return;
+            attempted = true;
+            setAudioState(true).then(function (ok2) {
+              // Whether successful or not, listeners are removed (one-shot).
+              cleanup();
+              if (!ok2) {
+                // Couldn't play even with gesture — nothing else to try.
+              }
+            });
+          };
+          const cleanup = function () {
+            events.forEach(function (ev) {
+              document.removeEventListener(ev, onGesture, true);
+            });
+          };
           events.forEach(function (ev) {
-            document.removeEventListener(ev, onceHandler, true);
+            document.addEventListener(ev, onGesture, true);
           });
-        };
-        events.forEach(function (ev) {
-          document.addEventListener(ev, onceHandler, true);
-        });
-        // Also try when audio metadata loads (in case it wasn't ready at first attempt)
-        bgAudio.addEventListener("canplay", tryAutoplay, { once: true });
-      }
+          // Also retry on canplay event in case file wasn't ready
+          bgAudio.addEventListener("canplay", function () {
+            if (!attempted && audioToggle.dataset.audioState !== "on") {
+              setAudioState(true).then(function (ok3) {
+                if (ok3) { attempted = true; cleanup(); }
+              });
+            }
+          }, { once: true });
+        }
+      });
     }
   }
 
