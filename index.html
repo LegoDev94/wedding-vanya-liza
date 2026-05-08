@@ -1,0 +1,2897 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0E1310" />
+<title>Ваня и Лиза · 15 августа 2025</title>
+<meta name="description" content="Приглашение на свадьбу Вани и Лизы — 15 августа 2025" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Ваня и Лиза · 15 августа 2025" />
+<meta property="og:description" content="Приглашаем разделить с нами один из самых важных дней нашей жизни" />
+<!-- DOMAIN: после покупки домена раскомментировать и подставить URL -->
+<!-- <meta property="og:url" content="https://your-wedding-domain.com" /> -->
+<!-- <meta property="og:image" content="https://your-wedding-domain.com/og.jpg" /> -->
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" />
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:          #0E1310;
+    --ink-deep:     #070A08;
+    --ink-soft:     #161C18;
+    --gold:         #D4B872;
+    --gold-bright:  #E8CE8A;
+    --gold-deep:    #8E7A4F;
+    --gold-line:    rgba(212, 184, 114, 0.32);
+    --gold-glow:    rgba(212, 184, 114, 0.18);
+    --ivory:        #F0E7D4;
+    --ivory-soft:   rgba(240, 231, 212, 0.74);
+    --ivory-mute:   rgba(240, 231, 212, 0.52);
+    --blush:        #C9A8A0;
+    --surface:      rgba(240, 231, 212, 0.035);
+    --surface-hi:   rgba(240, 231, 212, 0.07);
+
+    --font-display: "Playfair Display", "Cormorant Garamond", "Times New Roman", serif;
+    --font-body:    "Cormorant Garamond", "Times New Roman", serif;
+    --font-sc:      "Cormorant SC", "Cormorant Garamond", serif;
+
+    --ease-luxe:    cubic-bezier(0.32, 0.72, 0.24, 1);
+    --ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: var(--ink);
+    color: var(--ivory);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    position: relative;
+    overscroll-behavior: none;
+    touch-action: none;
+  }
+
+  /* ==== Atmospheric base ==== */
+
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 220px 220px;
+  }
+
+  .stage { position: relative; height: 100vh; height: 100dvh; }
+
+  .screen {
+    position: fixed; inset: 0;
+    width: 100%;
+    height: 100vh; height: 100dvh;
+    overflow: hidden;
+    will-change: transform, opacity, filter;
+    transform-origin: 50% 50%;
+  }
+  #screen-2 { visibility: hidden; }
+
+  .backdrop {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 38%, rgba(212, 184, 114, 0.13) 0%, transparent 55%),
+      radial-gradient(ellipse at 14% 110%, rgba(201, 168, 160, 0.10) 0%, transparent 50%),
+      linear-gradient(180deg, var(--ink) 0%, var(--ink-deep) 100%);
+  }
+
+  .backdrop-photo {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    mix-blend-mode: soft-light;
+    filter: blur(1px) saturate(0.6);
+    will-change: opacity;
+  }
+  .backdrop-shade {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at center, transparent 25%, rgba(7, 10, 8, 0.55) 100%);
+  }
+
+  /* ==== Decorative outer frame ==== */
+  .frame {
+    position: absolute;
+    inset: clamp(14px, 2.4vw, 36px);
+    pointer-events: none;
+    z-index: 3;
+  }
+  .frame::before,
+  .frame::after {
+    content: "";
+    position: absolute; inset: 0;
+    border: 1px solid var(--gold-line);
+  }
+  .frame::after {
+    inset: 6px;
+    border-color: rgba(212, 184, 114, 0.14);
+  }
+
+  .corner {
+    position: absolute;
+    width: clamp(22px, 3vw, 44px);
+    height: clamp(22px, 3vw, 44px);
+    color: var(--gold);
+    opacity: 0;
+  }
+  .corner.tl { top: -2px; left: -2px; }
+  .corner.tr { top: -2px; right: -2px; transform: rotate(90deg); }
+  .corner.br { bottom: -2px; right: -2px; transform: rotate(180deg); }
+  .corner.bl { bottom: -2px; left: -2px; transform: rotate(270deg); }
+  .corner svg { width: 100%; height: 100%; display: block; }
+
+  /* ==== Content layout ==== */
+  .content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(32px, 6vw, 84px) clamp(22px, 5vw, 64px);
+    max-width: 1080px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  /* ==== Screen 1: Hero ==== */
+  .eyebrow {
+    font-family: var(--font-sc);
+    font-weight: 400;
+    font-size: clamp(10px, 0.95vw, 12px);
+    letter-spacing: 0.55em;
+    text-indent: 0.55em;
+    color: var(--gold);
+    opacity: 0;
+    margin-bottom: clamp(16px, 2vw, 26px);
+  }
+
+  .crest {
+    width: clamp(110px, 15vw, 180px);
+    height: auto;
+    color: var(--gold);
+    margin-bottom: clamp(18px, 2.5vw, 32px);
+  }
+
+  .greet {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(14px, 1.4vw, 18px);
+    letter-spacing: 0.06em;
+    color: var(--ivory-soft);
+    margin-bottom: 14px;
+  }
+
+  .line {
+    display: block;
+    height: 1px;
+    transform-origin: center center;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      var(--gold-line) 25%,
+      var(--gold) 50%,
+      var(--gold-line) 75%,
+      transparent 100%);
+  }
+  .line-1 { width: clamp(86px, 14vw, 160px); margin: 6px auto 16px; }
+  .line-2 { width: clamp(110px, 16vw, 180px); margin: clamp(18px, 3vw, 32px) auto clamp(14px, 2vw, 22px); }
+
+  .names {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(54px, 11vw, 132px);
+    line-height: 0.96;
+    letter-spacing: -0.012em;
+    color: var(--ivory);
+    margin: clamp(10px, 1.6vw, 18px) 0 clamp(18px, 3vw, 32px);
+    position: relative;
+  }
+
+  .names .amp {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.78em;
+    margin: 0 clamp(8px, 1.6vw, 22px);
+    display: inline-block;
+    vertical-align: -0.02em;
+    background: linear-gradient(135deg,
+      var(--gold-deep) 0%,
+      var(--gold-bright) 45%,
+      var(--gold) 75%,
+      var(--gold-bright) 100%);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+            color: transparent;
+    background-size: 220% 220%;
+    background-position: 0% 50%;
+    transition: background-position 0.8s var(--ease-luxe);
+  }
+  .names:hover .amp { background-position: 100% 50%; }
+
+  .subhead {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(15px, 1.7vw, 21px);
+    color: var(--ivory-soft);
+    line-height: 1.55;
+    max-width: 540px;
+    letter-spacing: 0.005em;
+  }
+
+  /* Editorial date — stacked: day-of-week above, date row below */
+  .date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--gold);
+    opacity: 0;
+  }
+  .date-dow {
+    font-family: var(--font-sc);
+    font-weight: 400;
+    font-size: clamp(10px, 1vw, 12px);
+    letter-spacing: 0.55em;
+    text-indent: 0.55em;
+    opacity: 0.85;
+  }
+  .date-main {
+    display: inline-flex;
+    align-items: baseline;
+    gap: clamp(10px, 1.4vw, 16px);
+    font-family: var(--font-sc);
+    font-weight: 400;
+    font-size: clamp(13px, 1.25vw, 15px);
+    letter-spacing: 0.42em;
+    text-indent: 0.42em;
+    white-space: nowrap;
+  }
+  .date-dot {
+    display: inline-block;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    transform: translateY(-3px);
+    opacity: 0.85;
+  }
+  .day {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 2vw, 24px);
+    letter-spacing: 0;
+    text-indent: 0;
+    color: var(--gold-bright);
+    line-height: 1;
+  }
+
+  /* ==== Countdown timer ==== */
+  .countdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: clamp(14px, 2.4vw, 22px);
+    opacity: 0;
+  }
+  .countdown-label {
+    font-family: var(--font-sc);
+    font-size: clamp(9px, 0.85vw, 11px);
+    letter-spacing: 0.5em;
+    text-indent: 0.5em;
+    color: var(--gold);
+    opacity: 0.8;
+  }
+  .countdown-grid {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: clamp(8px, 1.4vw, 16px);
+  }
+  .countdown-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 32px;
+  }
+  .countdown-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(22px, 2.4vw, 30px);
+    color: var(--gold-bright);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .countdown-unit {
+    font-family: var(--font-sc);
+    font-size: clamp(8px, 0.8vw, 10px);
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+  .countdown-sep {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 24px);
+    color: var(--gold);
+    opacity: 0.4;
+    line-height: 1;
+    margin-top: 4px;
+  }
+
+  /* ==== Audio toggle (top-right floating button) ==== */
+  .audio-toggle {
+    position: fixed;
+    top: clamp(20px, 2.6vw, 36px);
+    right: clamp(20px, 2.6vw, 36px);
+    width: 44px; height: 44px;
+    background: rgba(7, 10, 8, 0.55);
+    border: 1px solid rgba(212, 184, 114, 0.32);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 9500;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition:
+      border-color 0.4s var(--ease-luxe),
+      color 0.4s var(--ease-luxe),
+      background 0.4s var(--ease-luxe),
+      transform 0.4s var(--ease-luxe);
+    opacity: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .audio-toggle:hover {
+    border-color: var(--gold);
+    color: var(--gold-bright);
+    background: rgba(7, 10, 8, 0.75);
+    transform: scale(1.06);
+  }
+  .audio-toggle svg {
+    width: 18px; height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .audio-toggle .audio-icon-on  { display: block; }
+  .audio-toggle .audio-icon-off { display: none; }
+  .audio-toggle[data-audio-state="on"] .audio-icon-on  { display: none; }
+  .audio-toggle[data-audio-state="on"] .audio-icon-off { display: block; }
+
+  /* Pulsing ring while audio is playing */
+  .audio-toggle::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border: 1px solid rgba(212, 184, 114, 0.5);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-luxe);
+  }
+  .audio-toggle[data-audio-state="on"]::before {
+    opacity: 1;
+    animation: audio-pulse 2.4s ease-out infinite;
+  }
+  @keyframes audio-pulse {
+    0%   { transform: scale(1);   opacity: 0.7; }
+    100% { transform: scale(1.4); opacity: 0;   }
+  }
+
+  /* ============== STAGE 2 — Celebration screens ============== */
+
+  /* Hide celebration-only screens in invitation mode */
+  body[data-site-mode="invitation"] .celebration-only,
+  body:not([data-site-mode]) .celebration-only {
+    display: none !important;
+  }
+
+  /* Celebration screen layout (scrollable, top-aligned) */
+  .content-celebration {
+    justify-content: flex-start;
+    padding-top: clamp(56px, 10vh, 96px);
+    padding-bottom: clamp(56px, 8vh, 88px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+    align-items: center;
+    gap: clamp(20px, 3vw, 32px);
+  }
+  .celebration-head {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    text-align: center;
+  }
+  .celebration-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(26px, 3.4vw, 40px);
+    color: var(--ivory);
+    line-height: 1.05;
+  }
+  .celebration-sub {
+    font-family: var(--font-sc);
+    font-weight: 400;
+    font-size: clamp(10px, 1vw, 12px);
+    letter-spacing: 0.45em;
+    text-indent: 0.45em;
+    color: var(--gold);
+  }
+
+  /* Upload form */
+  .upload-form {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+    max-width: 480px;
+    padding: clamp(20px, 3vw, 28px);
+    background: rgba(240, 231, 212, 0.03);
+    border: 1px solid rgba(212, 184, 114, 0.22);
+  }
+  .upload-form input[type="text"],
+  .upload-form textarea {
+    background: rgba(7, 10, 8, 0.45);
+    border: 1px solid rgba(212, 184, 114, 0.22);
+    color: var(--ivory);
+    padding: 12px 14px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-style: italic;
+    width: 100%;
+    transition: border-color 0.3s var(--ease-luxe);
+  }
+  .upload-form textarea { resize: vertical; min-height: 70px; }
+  .upload-form input[type="text"]::placeholder,
+  .upload-form textarea::placeholder {
+    color: var(--ivory-mute);
+    font-style: italic;
+  }
+  .upload-form input[type="text"]:focus,
+  .upload-form textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+
+  .file-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 14px;
+    background: rgba(7, 10, 8, 0.45);
+    border: 1px solid rgba(212, 184, 114, 0.22);
+    cursor: pointer;
+    font-family: var(--font-sc);
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.32em;
+    text-indent: 0.32em;
+    transition: border-color 0.3s var(--ease-luxe);
+  }
+  .file-input:hover { border-color: var(--gold); }
+  .file-input input[type="file"] { display: none; }
+  .file-input-name {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 12px;
+    color: var(--ivory-mute);
+    text-indent: 0;
+    letter-spacing: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 60%;
+  }
+
+  .upload-form button[type="submit"] {
+    margin-top: 6px;
+    padding: 14px;
+    background: rgba(212, 184, 114, 0.14);
+    border: 1px solid var(--gold);
+    color: var(--gold-bright);
+    font-family: var(--font-sc);
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    text-indent: 0.42em;
+    cursor: pointer;
+    transition: all 0.4s var(--ease-luxe);
+  }
+  .upload-form button[type="submit"]:hover {
+    background: rgba(212, 184, 114, 0.28);
+    color: var(--ivory);
+  }
+  .upload-form button[type="submit"]:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .upload-status {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ivory-mute);
+    text-align: center;
+    margin-top: 8px;
+    min-height: 18px;
+  }
+  .upload-status[data-status="success"] { color: var(--gold-bright); }
+  .upload-status[data-status="error"]   { color: #d88080; }
+
+  /* Cards grid (greetings, gallery) */
+  .cards-collection {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+    width: 100%;
+    max-width: 1080px;
+  }
+  .greeting-card,
+  .gallery-card {
+    position: relative;
+    background: rgba(240, 231, 212, 0.04);
+    border: 1px solid rgba(212, 184, 114, 0.22);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.4s var(--ease-luxe), transform 0.4s var(--ease-luxe);
+  }
+  .greeting-card:hover,
+  .gallery-card:hover {
+    border-color: rgba(212, 184, 114, 0.55);
+    transform: translateY(-2px);
+  }
+  .greeting-media,
+  .gallery-media {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: rgba(7, 10, 8, 0.5);
+    display: block;
+  }
+  .greeting-name {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ivory);
+    line-height: 1.1;
+  }
+  .greeting-message {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ivory-soft);
+    line-height: 1.45;
+  }
+  .card-delete {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 26px; height: 26px;
+    background: rgba(7, 10, 8, 0.7);
+    border: 1px solid rgba(212, 184, 114, 0.32);
+    color: var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    display: none;
+  }
+  body[data-admin-active="true"] .card-delete { display: flex; align-items: center; justify-content: center; }
+
+  .empty-state {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ivory-mute);
+    text-align: center;
+    padding: 32px 20px;
+    width: 100%;
+  }
+
+  /* Thanks screen — single video */
+  .thanks-video-wrap {
+    width: 100%;
+    max-width: 720px;
+    aspect-ratio: 16 / 9;
+    background: rgba(7, 10, 8, 0.5);
+    border: 1px solid rgba(212, 184, 114, 0.28);
+    overflow: hidden;
+    position: relative;
+  }
+  .thanks-video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .thanks-message {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: clamp(16px, 1.7vw, 20px);
+    color: var(--ivory-soft);
+    text-align: center;
+    max-width: 560px;
+    line-height: 1.55;
+  }
+
+  /* Admin upload area for gallery/thanks (only visible to admin) */
+  .admin-upload-zone { display: none; }
+  body[data-admin-active="true"] .admin-upload-zone { display: grid; }
+
+  /* Cross-screen prev/next nav buttons */
+  .nav-prev, .nav-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(7, 10, 8, 0.4);
+    border: 1px solid rgba(212, 184, 114, 0.28);
+    color: var(--gold);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 6;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: all 0.3s var(--ease-luxe);
+  }
+  .nav-prev { left: clamp(16px, 2.4vw, 28px); }
+  .nav-next { right: clamp(16px, 2.4vw, 28px); }
+  .nav-prev:hover, .nav-next:hover {
+    border-color: var(--gold);
+    color: var(--gold-bright);
+    background: rgba(7, 10, 8, 0.7);
+  }
+  .nav-prev svg, .nav-next svg {
+    width: 16px; height: 16px;
+    fill: none; stroke: currentColor;
+    stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  /* ==== Admin Panel (slide-in from right) ==== */
+  .admin-panel {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: min(380px, 92vw);
+    background: rgba(7, 10, 8, 0.96);
+    border-left: 1px solid rgba(212, 184, 114, 0.32);
+    z-index: 9800;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    transform: translateX(100%);
+    transition: transform 0.5s var(--ease-luxe);
+    overflow-y: auto;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .admin-panel[data-open="true"] { transform: translateX(0); }
+  .admin-panel h3 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 24px;
+    color: var(--ivory);
+    line-height: 1.1;
+  }
+  .admin-panel .admin-eyebrow {
+    font-family: var(--font-sc);
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-indent: 0.5em;
+    color: var(--gold);
+    margin-bottom: -16px;
+  }
+  .admin-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 32px; height: 32px;
+    background: transparent;
+    border: 1px solid rgba(212, 184, 114, 0.32);
+    border-radius: 50%;
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    transition: all 0.3s var(--ease-luxe);
+  }
+  .admin-close:hover {
+    border-color: var(--gold);
+    color: var(--gold-bright);
+  }
+  .admin-section {
+    display: flex; flex-direction: column; gap: 10px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(212, 184, 114, 0.12);
+  }
+  .admin-section:last-child { border-bottom: none; }
+  .admin-section > .admin-label {
+    font-family: var(--font-sc);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-indent: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .admin-modes { display: flex; gap: 8px; }
+  .admin-mode-btn {
+    flex: 1;
+    padding: 12px 10px;
+    background: rgba(240, 231, 212, 0.04);
+    border: 1px solid rgba(212, 184, 114, 0.22);
+    color: var(--ivory-soft);
+    font-family: var(--font-sc);
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-luxe);
+  }
+  .admin-mode-btn:hover { border-color: var(--gold); color: var(--ivory); }
+  .admin-mode-btn[data-active="true"] {
+    background: rgba(212, 184, 114, 0.14);
+    color: var(--gold-bright);
+    border-color: var(--gold);
+  }
+  .admin-help {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ivory-mute);
+    line-height: 1.5;
+  }
+  .admin-action {
+    padding: 11px 14px;
+    background: transparent;
+    border: 1px solid rgba(212, 184, 114, 0.22);
+    color: var(--ivory-soft);
+    font-family: var(--font-sc);
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-luxe);
+  }
+  .admin-action:hover {
+    border-color: var(--gold);
+    color: var(--ivory);
+  }
+  .admin-action.danger {
+    border-color: rgba(216, 128, 128, 0.3);
+    color: #d88080;
+  }
+  .admin-action.danger:hover {
+    border-color: #d88080;
+    background: rgba(216, 128, 128, 0.08);
+  }
+  .storage-info {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--ivory-mute);
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .nav-prev, .nav-next {
+      width: 36px; height: 36px;
+      top: auto;
+      bottom: 18px;
+      transform: none;
+    }
+    .nav-prev { left: 14px; }
+    .nav-next { right: 14px; }
+    .cards-collection { grid-template-columns: 1fr; gap: 12px; }
+    .content-celebration { padding-top: 56px; padding-bottom: 80px; }
+  }
+
+  /* ==== Falling gold dust ==== */
+  .dust-rain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+  }
+  .dust {
+    position: absolute;
+    top: -10px;
+    left: var(--x, 50%);
+    width: var(--size, 3px);
+    height: var(--size, 3px);
+    background: radial-gradient(circle,
+      rgba(232, 206, 138, 0.75) 0%,
+      rgba(212, 184, 114, 0.35) 45%,
+      transparent 78%);
+    border-radius: 50%;
+    filter: blur(0.4px);
+    will-change: transform, opacity;
+    opacity: 0;
+    animation: dust-fall var(--d, 16s) linear var(--delay, 0s) infinite;
+  }
+  @keyframes dust-fall {
+    0%   { transform: translate3d(0, 0, 0); opacity: 0; }
+    8%   { opacity: var(--max-op, 0.55); }
+    25%  { transform: translate3d(calc(var(--sway, 18px) *  0.7), 28vh, 0); }
+    50%  { transform: translate3d(calc(var(--sway, 18px) * -0.4), 56vh, 0); }
+    75%  { transform: translate3d(calc(var(--sway, 18px) *  0.5), 84vh, 0); }
+    92%  { opacity: var(--max-op, 0.55); }
+    100% { transform: translate3d(0, 112vh, 0); opacity: 0; }
+  }
+
+  /* CTA — scroll down/up */
+  .scroll-down,
+  .scroll-up {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: var(--gold);
+    font-family: var(--font-sc);
+    font-weight: 400;
+    letter-spacing: 0.42em;
+    text-indent: 0.42em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 22px;
+    transition: color 0.3s var(--ease-luxe);
+    z-index: 5;
+  }
+  .scroll-down {
+    bottom: clamp(24px, 4vw, 52px);
+    flex-direction: column;
+    gap: 10px;
+    font-size: 11px;
+    opacity: 0;
+  }
+  .scroll-up {
+    bottom: clamp(20px, 4vw, 44px);
+    flex-direction: row;
+    gap: 10px;
+    font-size: 10px;
+  }
+  .scroll-down:hover, .scroll-up:hover { color: var(--gold-bright); }
+
+  .scroll-arrow {
+    display: inline-block; line-height: 0;
+    color: var(--gold);
+    transition: color 0.3s var(--ease-luxe);
+  }
+  .scroll-down .scroll-arrow {
+    animation: breathe 2.4s ease-in-out infinite;
+  }
+  .scroll-arrow svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .scroll-down .scroll-arrow svg { width: 28px; height: 14px; }
+  .scroll-up .scroll-arrow svg { width: 20px; height: 10px; }
+
+  @keyframes breathe {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50%      { transform: translateY(8px); opacity: 1; }
+  }
+
+  .glow {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 120vmin; height: 120vmin;
+    background: radial-gradient(circle at center,
+      rgba(212, 184, 114, 0.10) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    will-change: transform;
+  }
+
+  /* ==== Side portraits — semi-transparent, ghosted, animated ==== */
+  .portrait {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: clamp(220px, 32vw, 420px);
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+    will-change: transform, opacity;
+    contain: layout paint;
+  }
+  .portrait-left  { left: 0; }
+  .portrait-right { right: 0; }
+
+  .portrait-inner {
+    position: absolute;
+    inset: 0;
+    /* Drift animation removed — was causing flicker in fade zone of mask */
+  }
+
+  .portrait-img {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 32%;
+    /* blur(1.2px) softens internal high-contrast edges so they don't shimmer
+       through the mask's semi-transparent fade zone */
+    filter: grayscale(0.92) brightness(0.78) sepia(0.36) saturate(0.62) contrast(0.94) blur(1.2px);
+    mix-blend-mode: luminosity;
+  }
+
+  .portrait-left .portrait-img {
+    -webkit-mask-image: radial-gradient(ellipse 100% 72% at 0% 48%,
+        rgba(0,0,0,0.95) 22%,
+        rgba(0,0,0,0.45) 50%,
+        rgba(0,0,0,0.08) 68%,
+        transparent 78%);
+            mask-image: radial-gradient(ellipse 100% 72% at 0% 48%,
+        rgba(0,0,0,0.95) 22%,
+        rgba(0,0,0,0.45) 50%,
+        rgba(0,0,0,0.08) 68%,
+        transparent 78%);
+  }
+  .portrait-right .portrait-img {
+    -webkit-mask-image: radial-gradient(ellipse 100% 72% at 100% 48%,
+        rgba(0,0,0,0.95) 22%,
+        rgba(0,0,0,0.45) 50%,
+        rgba(0,0,0,0.08) 68%,
+        transparent 78%);
+            mask-image: radial-gradient(ellipse 100% 72% at 100% 48%,
+        rgba(0,0,0,0.95) 22%,
+        rgba(0,0,0,0.45) 50%,
+        rgba(0,0,0,0.08) 68%,
+        transparent 78%);
+  }
+
+  /* Soft golden veil over each portrait, integrating with theme */
+  .portrait::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg,
+        rgba(14, 19, 16, 0.6) 0%,
+        rgba(14, 19, 16, 0) 22%,
+        rgba(14, 19, 16, 0) 78%,
+        rgba(14, 19, 16, 0.6) 100%),
+      radial-gradient(ellipse at center, rgba(212, 184, 114, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* portrait-drift keyframes removed — drift caused flicker artifacts in mask fade zone */
+
+  /* ==== Screen 2: Details ==== */
+  .details-head {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(14px, 2vw, 22px);
+    margin-bottom: 8px;
+  }
+  .details-head .line {
+    width: clamp(40px, 7vw, 80px);
+    margin: 0;
+    background: linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+  }
+  .details-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(26px, 3.4vw, 42px);
+    color: var(--ivory);
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+  }
+  .details-sub {
+    font-family: var(--font-sc);
+    font-weight: 400;
+    font-size: clamp(11px, 1vw, 13px);
+    letter-spacing: 0.5em;
+    text-indent: 0.5em;
+    color: var(--gold);
+    margin-bottom: clamp(22px, 4vw, 44px);
+    opacity: 0;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(12px, 1.8vw, 22px);
+    width: 100%;
+    max-width: 820px;
+  }
+
+  .detail-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid rgba(212, 184, 114, 0.22);
+    padding: clamp(22px, 3vw, 38px) clamp(20px, 2.6vw, 32px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    transition: transform 0.6s var(--ease-luxe),
+                border-color 0.6s var(--ease-luxe),
+                box-shadow 0.6s var(--ease-luxe),
+                background 0.6s var(--ease-luxe);
+  }
+  .detail-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(212, 184, 114, 0.55);
+    background: var(--surface-hi);
+    box-shadow:
+      0 0 0 1px rgba(212, 184, 114, 0.10),
+      0 30px 60px -32px rgba(0, 0, 0, 0.7),
+      0 0 80px -20px rgba(212, 184, 114, 0.15);
+  }
+
+  .detail-card::before,
+  .detail-card::after {
+    content: "";
+    position: absolute;
+    width: 14px; height: 14px;
+    border-color: var(--gold);
+    border-style: solid;
+    border-width: 0;
+    opacity: 0.55;
+    transition: opacity 0.4s var(--ease-luxe);
+  }
+  .detail-card::before {
+    top: 8px; left: 8px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+  }
+  .detail-card::after {
+    bottom: 8px; right: 8px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+  }
+  .detail-card:hover::before,
+  .detail-card:hover::after { opacity: 1; }
+
+  .detail-icon {
+    color: var(--gold);
+    line-height: 0;
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+  .detail-icon svg {
+    width: clamp(32px, 3.4vw, 40px);
+    height: clamp(32px, 3.4vw, 40px);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 0.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .detail-icon svg .fill { fill: currentColor; stroke: none; }
+
+  .card-divider {
+    width: 36px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 4px auto 6px;
+  }
+
+  .detail-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .detail-cat {
+    font-family: var(--font-sc);
+    font-weight: 500;
+    font-size: clamp(10px, 1vw, 12px);
+    letter-spacing: 0.4em;
+    text-indent: 0.4em;
+    color: var(--gold);
+  }
+
+  .detail-content {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(15px, 1.4vw, 19px);
+    color: var(--ivory);
+    line-height: 1.5;
+  }
+  .detail-content em.placeholder {
+    font-style: italic;
+    color: var(--ivory-mute);
+  }
+
+  /* ==== Curtain transition (premium) ==== */
+  .curtain {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at center, rgba(212, 184, 114, 0.08) 0%, transparent 60%),
+      linear-gradient(180deg, var(--ink-deep) 0%, var(--ink) 50%, var(--ink-deep) 100%);
+    z-index: 8000;
+    pointer-events: none;
+    clip-path: inset(0 0 100% 0);
+    -webkit-clip-path: inset(0 0 100% 0);
+  }
+
+  /* Gold seam — thin filament that travels with the curtain edge */
+  .curtain-seam {
+    position: fixed;
+    left: 0; right: 0;
+    top: 0;
+    height: 1px;
+    z-index: 8001;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      transparent 14%,
+      rgba(212, 184, 114, 0.0) 22%,
+      rgba(232, 206, 138, 1) 50%,
+      rgba(212, 184, 114, 0.0) 78%,
+      transparent 86%,
+      transparent 100%);
+    box-shadow:
+      0 0 6px rgba(212, 184, 114, 0.55),
+      0 0 18px rgba(212, 184, 114, 0.35),
+      0 0 36px rgba(212, 184, 114, 0.18);
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(0, -4px, 0);
+    will-change: transform, opacity;
+  }
+
+  /* Soft golden flash at the moment of swap */
+  .curtain-flash {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center,
+      rgba(212, 184, 114, 0.18) 0%, transparent 55%);
+    z-index: 8002;
+    pointer-events: none;
+    opacity: 0;
+    will-change: opacity;
+  }
+
+  /* ==== Responsive ==== */
+  /* Mobile portraits — asymmetric diagonal placement (editorial corner anchors) */
+  @media (max-width: 900px) {
+    .portrait {
+      top: auto; bottom: auto;
+      width: 70vw;
+      height: 48vh;
+    }
+    .portrait-left  { top: 0; left: 0; }
+    .portrait-right { bottom: 0; right: 0; }
+
+    /* Reset side mask, apply CORNER-anchored radial mask */
+    .portrait-left .portrait-img {
+      -webkit-mask-image: radial-gradient(ellipse 105% 105% at 0% 0%,
+          rgba(0,0,0,0.92) 12%,
+          rgba(0,0,0,0.55) 42%,
+          rgba(0,0,0,0.18) 70%,
+          transparent 95%);
+              mask-image: radial-gradient(ellipse 105% 105% at 0% 0%,
+          rgba(0,0,0,0.92) 12%,
+          rgba(0,0,0,0.55) 42%,
+          rgba(0,0,0,0.18) 70%,
+          transparent 95%);
+    }
+    .portrait-right .portrait-img {
+      -webkit-mask-image: radial-gradient(ellipse 105% 105% at 100% 100%,
+          rgba(0,0,0,0.92) 12%,
+          rgba(0,0,0,0.55) 42%,
+          rgba(0,0,0,0.18) 70%,
+          transparent 95%);
+              mask-image: radial-gradient(ellipse 105% 105% at 100% 100%,
+          rgba(0,0,0,0.92) 12%,
+          rgba(0,0,0,0.55) 42%,
+          rgba(0,0,0,0.18) 70%,
+          transparent 95%);
+    }
+
+    /* Reposition image focus toward the visible corner */
+    .portrait-left  .portrait-img { background-position: 30% 28%; }
+    .portrait-right .portrait-img { background-position: 70% 32%; }
+
+    /* Veil: tone down the corner blob a touch and emphasize ink fade */
+    .portrait::after {
+      background:
+        radial-gradient(ellipse at center, rgba(212, 184, 114, 0.04) 0%, transparent 55%);
+    }
+
+    /* Mobile drift removed alongside desktop drift to keep portraits stable */
+  }
+
+  @media (max-width: 600px) {
+    .audio-toggle {
+      width: 40px; height: 40px;
+      top: 16px; right: 16px;
+    }
+    .audio-toggle svg { width: 16px; height: 16px; }
+
+    .countdown { margin-top: 14px; gap: 6px; }
+    .countdown-grid { gap: 6px; }
+    .countdown-cell { min-width: 28px; }
+    .countdown-num { font-size: 20px; }
+    .countdown-unit { font-size: 7.5px; letter-spacing: 0.24em; text-indent: 0.24em; }
+    .countdown-label { font-size: 8.5px; letter-spacing: 0.4em; text-indent: 0.4em; }
+    .countdown-sep { font-size: 16px; margin-top: 4px; }
+
+    .frame { inset: 11px; }
+    .corner { width: 20px; height: 20px; }
+
+    .content { padding: 36px 18px; }
+    .content-details { padding: 28px 18px 56px; gap: 10px; justify-content: flex-start; padding-top: clamp(40px, 8vh, 60px); }
+
+    /* Details header more compact */
+    .details-head { gap: 12px; margin-bottom: 4px; }
+    .details-title { font-size: 22px; }
+    .details-head .line { width: 24px; }
+    .details-sub { font-size: 10px; letter-spacing: 0.4em; margin-bottom: 18px; }
+
+    /* HORIZONTAL COMPACT CARDS on mobile */
+    .cards-grid {
+      grid-template-columns: 1fr;
+      gap: 9px;
+      max-width: 100%;
+    }
+    .detail-card {
+      flex-direction: row;
+      align-items: center;
+      text-align: left;
+      gap: 16px;
+      padding: 14px 16px;
+    }
+    .detail-card .card-divider { display: none; }
+    .detail-icon { margin-top: 0; }
+    .detail-icon svg { width: 30px; height: 30px; }
+    .detail-text {
+      align-items: flex-start;
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+    }
+    .detail-cat { font-size: 9.5px; letter-spacing: 0.3em; text-indent: 0.3em; }
+    .detail-content { font-size: 13.5px; line-height: 1.4; }
+    .detail-card::before, .detail-card::after {
+      width: 9px; height: 9px;
+      opacity: 0.4;
+    }
+    .detail-card::before { top: 6px; left: 6px; }
+    .detail-card::after { bottom: 6px; right: 6px; }
+
+    .scroll-up {
+      bottom: 14px;
+      font-size: 9.5px;
+      letter-spacing: 0.36em;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .crest { width: 96px; margin-bottom: 14px; }
+    .eyebrow { letter-spacing: 0.42em; text-indent: 0.42em; font-size: 9.5px; margin-bottom: 14px; }
+    .greet { font-size: 14px; }
+    .line-1 { margin: 4px auto 12px; }
+    .line-2 { margin: 14px auto 10px; }
+    .names { font-size: clamp(46px, 13vw, 60px); line-height: 1; margin: 6px 0 14px; }
+    .names .amp { margin: 0 6px; font-size: 0.74em; }
+    .subhead { font-size: 14.5px; max-width: 320px; line-height: 1.5; }
+    .date-dow { font-size: 9px; letter-spacing: 0.42em; text-indent: 0.42em; }
+    .date-main { font-size: 11px; gap: 10px; letter-spacing: 0.3em; text-indent: 0.3em; }
+    .day { font-size: 17px; }
+    .scroll-down { bottom: 18px; font-size: 9.5px; letter-spacing: 0.36em; gap: 8px; }
+  }
+
+  @media (min-width: 601px) and (max-width: 768px) {
+    .names { font-size: 80px; }
+  }
+
+  @media (max-height: 700px) and (min-width: 601px) {
+    .crest { width: 96px; margin-bottom: 14px; }
+    .eyebrow { margin-bottom: 12px; }
+    .names { font-size: clamp(44px, 8vw, 84px); margin: 8px 0 14px; }
+    .subhead { font-size: 15px; max-width: 460px; }
+    .line-2 { margin: 14px auto 8px; }
+    .countdown { margin-top: 10px; gap: 6px; }
+    .countdown-num { font-size: 22px; }
+    .countdown-unit { font-size: 8.5px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+    .glow, .corner, .eyebrow, .greet, .names, .subhead, .date,
+    .scroll-down, .detail-card, .details-title, .details-sub,
+    .backdrop-photo, .countdown, .audio-toggle { opacity: 1 !important; transform: none !important; }
+    .line { transform: scaleX(1) !important; }
+    .crest .branch { stroke-dashoffset: 0 !important; }
+    .crest .leaf, .crest .dot, .crest circle { transform: scale(1) !important; }
+    .dust-rain { display: none !important; }
+  }
+</style>
+
+<noscript>
+  <style>
+    body { overflow: auto !important; touch-action: auto !important; }
+    .stage { height: auto !important; }
+    .screen { position: relative !important; visibility: visible !important; }
+    #screen-2 { visibility: visible !important; }
+    .backdrop-photo { opacity: 0.18 !important; }
+    .glow { opacity: 1 !important; }
+    .eyebrow, .greet, .names, .subhead, .date, .scroll-down, .detail-card,
+    .details-title, .details-sub, .corner { opacity: 1 !important; transform: none !important; }
+    .line { transform: scaleX(1) !important; }
+    .scroll-down, .scroll-up, .curtain, .curtain-seam, .curtain-flash { display: none !important; }
+    .crest .branch { stroke-dashoffset: 0 !important; }
+    .crest .leaf, .crest circle { transform: scale(1) !important; }
+  </style>
+</noscript>
+</head>
+<body>
+
+<!-- Reusable corner flourish (referenced 8x) -->
+<svg width="0" height="0" style="position:absolute;visibility:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="corner-flourish" viewBox="0 0 44 44">
+      <!-- Directional sprig: stem grows FROM the corner (4,4) toward content (28,28).
+           Used with rotate(0/90/180/270) so each instance points inward. -->
+      <g fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M 5 5 C 11 16, 18 21, 27 23" />
+        <path d="M 11 9  Q 8 15, 8 20" />
+        <path d="M 9 11  Q 15 8, 20 8" />
+        <path d="M 18 17 Q 22 16, 24 14" />
+      </g>
+      <g fill="currentColor">
+        <path d="M 8 20 q -3 0, -3 -5 q 5 -1, 3 5 z"/>
+        <path d="M 20 8 q 0 -3, -5 -3 q -1 5, 5 3 z"/>
+        <path d="M 24 14 q 2 -2, 5 0 q -2 3, -5 0 z"/>
+        <circle cx="27" cy="23" r="1.9"/>
+        <circle cx="27" cy="23" r="0.7" fill="#0E1310"/>
+        <circle cx="33" cy="29" r="0.9" opacity="0.55"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="grain" aria-hidden="true"></div>
+
+<main class="stage">
+
+  <!-- ============== SCREEN 1: HERO ============== -->
+  <section id="screen-1" class="screen invitation" aria-labelledby="couple-names">
+    <div class="backdrop" aria-hidden="true"></div>
+
+    <!-- PHOTO: ultra-subtle organic backdrop texture (heavily darkened) -->
+    <!-- Photo: unsplash.com/photos/sfL_QOnmy00 — Free to use under Unsplash License -->
+    <div class="backdrop-photo"
+         style="background-image:url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1800&q=70&auto=format&fit=crop');"
+         aria-hidden="true"></div>
+    <div class="backdrop-shade" aria-hidden="true"></div>
+    <div class="glow" aria-hidden="true"></div>
+
+    <!-- Side portraits — атмосферные полупрозрачные слои -->
+    <!-- PHOTO: левый портрет — жених (плейсхолдер; заменить на реальное фото Вани) -->
+    <!-- Photo: unsplash.com/photos/T9CXBZLUvic — Free to use under Unsplash License -->
+    <div class="portrait portrait-left" aria-hidden="true">
+      <div class="portrait-inner">
+        <div class="portrait-img"
+             style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80&auto=format&fit=crop');"></div>
+      </div>
+    </div>
+
+    <!-- PHOTO: правый портрет — невеста (плейсхолдер; заменить на реальное фото Лизы) -->
+    <!-- Photo: unsplash.com/photos/Smr3wm6Fs6g — Free to use under Unsplash License -->
+    <div class="portrait portrait-right" aria-hidden="true">
+      <div class="portrait-inner">
+        <div class="portrait-img"
+             style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=900&q=80&auto=format&fit=crop');"></div>
+      </div>
+    </div>
+
+    <!-- Falling gold dust (atmospheric particles) -->
+    <div class="dust-rain" aria-hidden="true"></div>
+
+    <div class="frame" aria-hidden="true">
+      <span class="corner tl"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner tr"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner bl"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner br"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+    </div>
+
+    <div class="content">
+
+      <p class="eyebrow">Сохраните дату · Россия · MMXXV</p>
+
+      <svg class="crest" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round">
+          <path class="branch" d="M100 8 V 64" />
+          <path class="branch" d="M100 22 Q 88 18, 72 12" />
+          <path class="branch" d="M100 22 Q 112 18, 128 12" />
+          <path class="branch" d="M100 36 Q 84 36, 66 30" />
+          <path class="branch" d="M100 36 Q 116 36, 134 30" />
+          <path class="branch" d="M100 50 Q 88 52, 78 50" />
+          <path class="branch" d="M100 50 Q 112 52, 122 50" />
+        </g>
+        <g class="leaves" fill="currentColor">
+          <path class="leaf" d="M72 12 q -8 -4, -2 -10 q 9 0, 2 10 z"/>
+          <path class="leaf" d="M128 12 q 8 -4, 2 -10 q -9 0, -2 10 z"/>
+          <path class="leaf" d="M66 30 q -10 -2, -4 -10 q 10 2, 4 10 z"/>
+          <path class="leaf" d="M134 30 q 10 -2, 4 -10 q -10 2, -4 10 z"/>
+          <path class="leaf" d="M78 50 q -8 0, -4 -8 q 8 0, 4 8 z"/>
+          <path class="leaf" d="M122 50 q 8 0, 4 -8 q -8 0, -4 8 z"/>
+          <circle class="dot bloom" cx="100" cy="6" r="3.4"/>
+          <circle class="dot bloom-inner" cx="100" cy="6" r="1.4" fill="#0E1310"/>
+          <circle class="dot" cx="100" cy="68" r="1.4"/>
+        </g>
+      </svg>
+
+      <p class="greet">Здравствуйте, дорогие гости</p>
+      <span class="line line-1" aria-hidden="true"></span>
+
+      <h1 id="couple-names" class="names">
+        <span class="name-a">Ваня</span><em class="amp">&amp;</em><span class="name-b">Лиза</span>
+      </h1>
+
+      <p class="subhead">
+        приглашают вас разделить с нами<br />
+        один из самых важных дней нашей жизни
+      </p>
+
+      <span class="line line-2" aria-hidden="true"></span>
+
+      <div class="date" aria-label="Пятница, 15 августа 2025 года">
+        <span class="date-dow">ПЯТНИЦА</span>
+        <span class="date-main">
+          <span class="day">15</span>
+          <span class="date-dot" aria-hidden="true"></span>
+          <span>АВГУСТА</span>
+          <span class="date-dot" aria-hidden="true"></span>
+          <span>2025</span>
+        </span>
+      </div>
+
+      <div class="countdown" aria-label="Время до торжества">
+        <span class="countdown-label">До торжества осталось</span>
+        <div class="countdown-grid">
+          <div class="countdown-cell">
+            <span class="countdown-num" data-cd-days>--</span>
+            <span class="countdown-unit">дн.</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true">·</span>
+          <div class="countdown-cell">
+            <span class="countdown-num" data-cd-hours>--</span>
+            <span class="countdown-unit">час.</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true">·</span>
+          <div class="countdown-cell">
+            <span class="countdown-num" data-cd-mins>--</span>
+            <span class="countdown-unit">мин.</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true">·</span>
+          <div class="countdown-cell">
+            <span class="countdown-num" data-cd-secs>--</span>
+            <span class="countdown-unit">сек.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="scroll-down" type="button" aria-label="Перейти к деталям">
+      <span>Детали</span>
+      <span class="scroll-arrow" aria-hidden="true">
+        <svg viewBox="0 0 28 14"><polyline points="2,2 14,12 26,2" /></svg>
+      </span>
+    </button>
+  </section>
+
+  <!-- ============== SCREEN 2: DETAILS ============== -->
+  <section id="screen-2" class="screen details" aria-labelledby="details-title">
+    <div class="backdrop" aria-hidden="true"></div>
+
+    <!-- PHOTO: secondary subtle texture (same source, blurred for atmosphere) -->
+    <!-- Photo: unsplash.com/photos/sfL_QOnmy00 — Free to use under Unsplash License (treatment: blur + soft-light) -->
+    <div class="backdrop-photo"
+         style="background-image:url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1400&q=60&auto=format&fit=crop&blur=180');"
+         aria-hidden="true"></div>
+    <div class="backdrop-shade" aria-hidden="true"></div>
+
+    <div class="frame" aria-hidden="true">
+      <span class="corner tl"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner tr"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner bl"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner br"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+    </div>
+
+    <div class="content content-details">
+      <div class="details-head">
+        <span class="line" aria-hidden="true"></span>
+        <h2 id="details-title" class="details-title">Детали торжества</h2>
+        <span class="line" aria-hidden="true"></span>
+      </div>
+      <p class="details-sub">15 АВГУСТА 2025</p>
+
+      <div class="cards-grid">
+
+        <article class="detail-card" data-card>
+          <span class="detail-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32">
+              <path d="M16 4 C10 4, 6 8, 6 14 C6 22, 16 28, 16 28 C16 28, 26 22, 26 14 C26 8, 22 4, 16 4 Z"/>
+              <circle cx="16" cy="13" r="3"/>
+            </svg>
+          </span>
+          <span class="card-divider" aria-hidden="true"></span>
+          <div class="detail-text">
+            <span class="detail-cat">МЕСТО ПРОВЕДЕНИЯ</span>
+            <p class="detail-content">
+              <!-- CONTENT: Название площадки и адрес -->
+              <em class="placeholder">Название площадки<br />город, улица, дом</em>
+            </p>
+          </div>
+        </article>
+
+        <article class="detail-card" data-card>
+          <span class="detail-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32">
+              <circle cx="16" cy="16" r="11"/>
+              <path d="M16 8 V 16 L 22 19" />
+              <circle cx="16" cy="16" r="0.8" class="fill"/>
+            </svg>
+          </span>
+          <span class="card-divider" aria-hidden="true"></span>
+          <div class="detail-text">
+            <span class="detail-cat">НАЧАЛО ТОРЖЕСТВА</span>
+            <p class="detail-content">
+              <!-- CONTENT: Время начала церемонии и сбора гостей -->
+              <em class="placeholder">Сбор гостей в 15:00<br />Церемония в 16:00</em>
+            </p>
+          </div>
+        </article>
+
+        <article class="detail-card" data-card>
+          <span class="detail-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32">
+              <path d="M11 6 L 21 6 L 22 11 L 27 27 L 5 27 L 10 11 Z"/>
+              <path d="M11 6 Q 16 10, 21 6"/>
+              <path d="M16 4 V 6"/>
+              <circle cx="16" cy="3" r="1.2" class="fill"/>
+            </svg>
+          </span>
+          <span class="card-divider" aria-hidden="true"></span>
+          <div class="detail-text">
+            <span class="detail-cat">ДРЕСС-КОД</span>
+            <p class="detail-content">
+              <!-- CONTENT: Описание дресс-кода и палитры -->
+              <em class="placeholder">Light cocktail<br />пастельные оттенки</em>
+            </p>
+          </div>
+        </article>
+
+        <article class="detail-card" data-card>
+          <span class="detail-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32">
+              <ellipse cx="16" cy="9" rx="3.5" ry="6"/>
+              <ellipse cx="16" cy="23" rx="3.5" ry="6"/>
+              <ellipse cx="9" cy="16" rx="6" ry="3.5"/>
+              <ellipse cx="23" cy="16" rx="6" ry="3.5"/>
+              <circle cx="16" cy="16" r="2.4" class="fill"/>
+            </svg>
+          </span>
+          <span class="card-divider" aria-hidden="true"></span>
+          <div class="detail-text">
+            <span class="detail-cat">ПОЖЕЛАНИЯ</span>
+            <p class="detail-content">
+              <!-- CONTENT: Предпочтения по цветам и формату подарков -->
+              <em class="placeholder">Будем рады живым цветам<br />в пастельных тонах</em>
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <button class="scroll-up" type="button" aria-label="Вернуться к приглашению">
+      <span class="scroll-arrow" aria-hidden="true">
+        <svg viewBox="0 0 20 10"><polyline points="2,8 10,2 18,8" /></svg>
+      </span>
+      <span>наверх</span>
+    </button>
+  </section>
+
+  <!-- ============== SCREEN 3: GREETINGS (Stage 2) ============== -->
+  <section id="screen-3" class="screen celebration-only" aria-labelledby="greetings-title">
+    <div class="backdrop" aria-hidden="true"></div>
+    <div class="backdrop-shade" aria-hidden="true"></div>
+
+    <div class="frame" aria-hidden="true">
+      <span class="corner tl"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner tr"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner bl"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner br"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+    </div>
+
+    <div class="content content-celebration">
+      <div class="celebration-head">
+        <span class="celebration-sub">ОТ ГОСТЕЙ</span>
+        <h2 id="greetings-title" class="celebration-title">Поздравления</h2>
+      </div>
+
+      <form class="upload-form" id="greeting-form" novalidate>
+        <input type="text" name="name" placeholder="Ваше имя" required maxlength="60" />
+        <textarea name="message" placeholder="Ваше пожелание (необязательно)" maxlength="500"></textarea>
+        <label class="file-input">
+          <input type="file" name="photo" accept="image/*" />
+          <span>ФОТО</span>
+          <span class="file-input-name" data-for="photo">не выбрано</span>
+        </label>
+        <label class="file-input">
+          <input type="file" name="video" accept="video/*" />
+          <span>ВИДЕО — ДО 30 СЕК</span>
+          <span class="file-input-name" data-for="video">не выбрано</span>
+        </label>
+        <button type="submit">Поделиться поздравлением</button>
+        <div class="upload-status" id="greeting-status" data-status=""></div>
+      </form>
+
+      <div class="cards-collection" id="greetings-grid">
+        <p class="empty-state">Будьте первым, кто оставит поздравление</p>
+      </div>
+    </div>
+
+    <button class="nav-prev" type="button" aria-label="Назад к деталям" data-nav="prev">
+      <svg viewBox="0 0 24 24"><polyline points="15,4 7,12 15,20" /></svg>
+    </button>
+    <button class="nav-next" type="button" aria-label="К галерее" data-nav="next">
+      <svg viewBox="0 0 24 24"><polyline points="9,4 17,12 9,20" /></svg>
+    </button>
+  </section>
+
+  <!-- ============== SCREEN 4: GALLERY (Stage 2) ============== -->
+  <section id="screen-4" class="screen celebration-only" aria-labelledby="gallery-title">
+    <div class="backdrop" aria-hidden="true"></div>
+    <div class="backdrop-shade" aria-hidden="true"></div>
+
+    <div class="frame" aria-hidden="true">
+      <span class="corner tl"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner tr"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner bl"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner br"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+    </div>
+
+    <div class="content content-celebration">
+      <div class="celebration-head">
+        <span class="celebration-sub">ФОТО И ВИДЕО ДНЯ</span>
+        <h2 id="gallery-title" class="celebration-title">Галерея торжества</h2>
+      </div>
+
+      <form class="upload-form admin-upload-zone" id="gallery-form" novalidate>
+        <p class="storage-info" style="margin-bottom: 4px;">Только для администратора. Загрузите кадры со свадьбы — гости увидят их здесь.</p>
+        <label class="file-input">
+          <input type="file" name="media" accept="image/*,video/*" multiple />
+          <span>ВЫБРАТЬ ФАЙЛЫ</span>
+          <span class="file-input-name" data-for="media">не выбрано</span>
+        </label>
+        <button type="submit">Опубликовать в галерее</button>
+        <div class="upload-status" id="gallery-status" data-status=""></div>
+      </form>
+
+      <div class="cards-collection" id="gallery-grid">
+        <p class="empty-state">Галерея появится после торжества</p>
+      </div>
+    </div>
+
+    <button class="nav-prev" type="button" aria-label="К поздравлениям" data-nav="prev">
+      <svg viewBox="0 0 24 24"><polyline points="15,4 7,12 15,20" /></svg>
+    </button>
+    <button class="nav-next" type="button" aria-label="К благодарности" data-nav="next">
+      <svg viewBox="0 0 24 24"><polyline points="9,4 17,12 9,20" /></svg>
+    </button>
+  </section>
+
+  <!-- ============== SCREEN 5: THANKS (Stage 2) ============== -->
+  <section id="screen-5" class="screen celebration-only" aria-labelledby="thanks-title">
+    <div class="backdrop" aria-hidden="true"></div>
+    <div class="backdrop-shade" aria-hidden="true"></div>
+
+    <div class="frame" aria-hidden="true">
+      <span class="corner tl"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner tr"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner bl"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+      <span class="corner br"><svg viewBox="0 0 44 44"><use href="#corner-flourish"/></svg></span>
+    </div>
+
+    <div class="content content-celebration" style="justify-content:center;">
+      <div class="celebration-head">
+        <span class="celebration-sub">ОТ ВАНИ И ЛИЗЫ</span>
+        <h2 id="thanks-title" class="celebration-title">Благодарность</h2>
+      </div>
+
+      <div class="thanks-video-wrap" id="thanks-video-wrap">
+        <p class="empty-state" id="thanks-empty">Видео появится после торжества</p>
+      </div>
+
+      <p class="thanks-message" id="thanks-message">
+        Спасибо, что разделили с нами этот день
+      </p>
+
+      <form class="upload-form admin-upload-zone" id="thanks-form" novalidate style="max-width:480px;">
+        <p class="storage-info" style="margin-bottom: 4px;">Только для администратора. Загрузите видео-благодарность.</p>
+        <label class="file-input">
+          <input type="file" name="video" accept="video/*" />
+          <span>ВИДЕО</span>
+          <span class="file-input-name" data-for="video">не выбрано</span>
+        </label>
+        <textarea name="message" placeholder="Текст благодарности (необязательно)" maxlength="500"></textarea>
+        <button type="submit">Опубликовать</button>
+        <div class="upload-status" id="thanks-status" data-status=""></div>
+      </form>
+    </div>
+
+    <button class="nav-prev" type="button" aria-label="К галерее" data-nav="prev">
+      <svg viewBox="0 0 24 24"><polyline points="15,4 7,12 15,20" /></svg>
+    </button>
+  </section>
+
+</main>
+
+<!-- ============== ADMIN PANEL ============== -->
+<aside class="admin-panel" data-open="false" aria-label="Панель администратора">
+  <button class="admin-close" type="button" aria-label="Закрыть" data-admin-close>×</button>
+
+  <div>
+    <p class="admin-eyebrow">Управление</p>
+    <h3>Настройки сайта</h3>
+  </div>
+
+  <div class="admin-section">
+    <span class="admin-label">Режим сайта</span>
+    <div class="admin-modes">
+      <button class="admin-mode-btn" type="button" data-mode="invitation">Приглашение</button>
+      <button class="admin-mode-btn" type="button" data-mode="celebration">Празднование</button>
+    </div>
+    <p class="admin-help">
+      «Приглашение» — гости видят hero и детали. «Празднование» — открываются 3 раздела:
+      поздравления гостей, галерея и благодарность.
+    </p>
+  </div>
+
+  <div class="admin-section">
+    <span class="admin-label">Локальное хранилище</span>
+    <p class="storage-info" id="storage-stats">—</p>
+    <button class="admin-action danger" type="button" data-clear-greetings>Очистить поздравления</button>
+    <button class="admin-action danger" type="button" data-clear-gallery>Очистить галерею</button>
+    <button class="admin-action danger" type="button" data-clear-thanks>Сбросить благодарность</button>
+  </div>
+
+  <div class="admin-section">
+    <span class="admin-label">Доступ</span>
+    <p class="admin-help">
+      Откройте сайт с <strong>#admin</strong> в адресной строке или нажмите
+      <strong>Ctrl+Shift+A</strong> чтобы вернуться к этой панели.
+      Загруженные файлы хранятся в этом браузере (IndexedDB) — для синхронизации
+      между гостями нужен бэкенд.
+    </p>
+  </div>
+</aside>
+
+<!-- Cinematic transition layers -->
+<div class="curtain" aria-hidden="true"></div>
+<div class="curtain-flash" aria-hidden="true"></div>
+<div class="curtain-seam" aria-hidden="true"></div>
+
+<!-- Audio toggle (top-right floating button) -->
+<button class="audio-toggle" type="button" aria-label="Включить фоновую музыку" data-audio-state="off">
+  <svg class="audio-icon-on" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M3 9 L7 9 L11 5 L11 19 L7 15 L3 15 Z" fill="currentColor"/>
+    <path d="M14 9 Q 17 12, 14 15" />
+    <path d="M16.5 6 Q 21 12, 16.5 18" />
+  </svg>
+  <svg class="audio-icon-off" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M3 9 L7 9 L11 5 L11 19 L7 15 L3 15 Z" fill="currentColor"/>
+    <line x1="14" y1="9" x2="20" y2="15" />
+    <line x1="20" y1="9" x2="14" y2="15" />
+  </svg>
+</button>
+
+<!-- Фоновая музыка — заменить bg-sound.mp3 на свой трек если нужно -->
+<audio class="bg-audio" loop preload="none">
+  <source src="bg-sound.mp3" type="audio/mpeg" />
+</audio>
+
+<script>
+(function () {
+  "use strict";
+
+  if (typeof gsap === "undefined") {
+    document.querySelectorAll(".backdrop-photo").forEach(el => el.style.opacity = 0.18);
+    document.querySelectorAll(".eyebrow,.greet,.names,.subhead,.date,.scroll-down,.detail-card,.details-title,.details-sub,.corner,.glow")
+      .forEach(el => { el.style.opacity = 1; el.style.transform = "none"; });
+    return;
+  }
+
+  // ---------- DOM ----------
+  const screen1     = document.getElementById("screen-1");
+  const screen2     = document.getElementById("screen-2");
+  const curtain     = document.querySelector(".curtain");
+  const curtainSeam = document.querySelector(".curtain-seam");
+  const curtainFlash= document.querySelector(".curtain-flash");
+  const cards       = Array.from(document.querySelectorAll(".detail-card"));
+  const headLines   = document.querySelectorAll(".details-head .line");
+
+  const heroBackdrop = screen1.querySelector(".backdrop-photo");
+  const heroGlow     = screen1.querySelector(".glow");
+  const heroCorners  = screen1.querySelectorAll(".corner");
+  const heroBranches = screen1.querySelectorAll(".crest .branch");
+  const heroLeaves   = screen1.querySelectorAll(".crest .leaf, .crest .dot");
+  const heroLines    = screen1.querySelectorAll(".line-1, .line-2");
+  const portraitL    = screen1.querySelector(".portrait-left");
+  const portraitR    = screen1.querySelector(".portrait-right");
+  const dustContainer= screen1.querySelector(".dust-rain");
+  const audioToggle  = document.querySelector(".audio-toggle");
+  const bgAudio      = document.querySelector(".bg-audio");
+  const cdEls = {
+    days:  document.querySelector("[data-cd-days]"),
+    hours: document.querySelector("[data-cd-hours]"),
+    mins:  document.querySelector("[data-cd-mins]"),
+    secs:  document.querySelector("[data-cd-secs]"),
+    label: document.querySelector(".countdown-label")
+  };
+
+  let currentIdx    = 0;
+  let transitioning = false;
+  let cardsAnimated = false;
+
+  // ---------- Initial states ----------
+  gsap.set(heroBackdrop,     { opacity: 0 });
+  gsap.set(heroGlow,         { opacity: 0 });
+  gsap.set(heroCorners,      { opacity: 0, scale: 0.85 });
+  // Portraits: side-slide on desktop, diagonal-slide from outer corner on mobile
+  const isMobileLayout = window.innerWidth < 900;
+  const portraitOpacity = isMobileLayout ? 0.42 : 0.55;
+  if (portraitL) gsap.set(portraitL, {
+    opacity: 0,
+    x: isMobileLayout ? -50 : -90,
+    y: isMobileLayout ? -40 : 0,
+    filter: "blur(14px)"
+  });
+  if (portraitR) gsap.set(portraitR, {
+    opacity: 0,
+    x: isMobileLayout ?  50 :  90,
+    y: isMobileLayout ?  40 :  0,
+    filter: "blur(14px)"
+  });
+  gsap.set(".countdown",    { opacity: 0, y: 12 });
+  gsap.set(".audio-toggle", { opacity: 0, scale: 0.85 });
+  gsap.set(".eyebrow",       { opacity: 0, y: 8 });
+  gsap.set(".greet",         { opacity: 0, y: 20 });
+  gsap.set(heroLines,        { scaleX: 0 });
+  gsap.set(headLines,        { scaleX: 0 });
+  gsap.set(".names",         { opacity: 0, y: 30 });
+  gsap.set(".subhead",       { opacity: 0, y: 12 });
+  gsap.set(".date",          { opacity: 0 });
+  gsap.set(".scroll-down",   { opacity: 0, y: -8 });
+  gsap.set(heroLeaves,       { scale: 0, transformOrigin: "50% 50%" });
+  gsap.set(cards,            { opacity: 0, y: 30 });
+  gsap.set(".details-title, .details-sub", { opacity: 0, y: 14 });
+  gsap.set(curtainSeam,      { opacity: 0, y: -4 });
+  gsap.set(curtainFlash,     { opacity: 0 });
+
+  // SVG draw-in setup for crest branches
+  heroBranches.forEach(p => {
+    const len = (p.getTotalLength && p.getTotalLength()) || 80;
+    p.style.strokeDasharray  = len;
+    p.style.strokeDashoffset = len;
+  });
+
+  // ---------- Intro timeline ----------
+  function playIntro() {
+    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+    tl.to(heroBackdrop, { opacity: 0.18, duration: 1.6, ease: "power1.out" }, 0)
+      .to(heroGlow,     { opacity: 1, duration: 1.6, ease: "power1.out" }, 0)
+      .to(heroCorners,  { opacity: 1, scale: 1, duration: 0.9, stagger: 0.06, ease: "power2.out" }, 0.2)
+      .to(portraitL,    { opacity: portraitOpacity, x: 0, y: 0, filter: "blur(0px)", duration: 1.9, ease: "power3.out" }, 0.5)
+      .to(portraitR,    { opacity: portraitOpacity, x: 0, y: 0, filter: "blur(0px)", duration: 1.9, ease: "power3.out" }, 0.5)
+      .to(".eyebrow",   { opacity: 1, y: 0, duration: 0.6 }, 0.3)
+      .to(heroBranches, { strokeDashoffset: 0, duration: 1.4, ease: "power1.inOut", stagger: 0.04 }, 0.4)
+      .to(heroLeaves,   { scale: 1, duration: 0.45, stagger: 0.06, ease: "back.out(2.2)" }, 1.2)
+      .to(".greet",     { opacity: 1, y: 0, duration: 0.7 }, 1.0)
+      .to(".line-1",    { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, 1.3)
+      .to(".names",     { opacity: 1, y: 0, duration: 0.95, ease: "power3.out" }, 1.6)
+      .to(".subhead",   { opacity: 1, y: 0, duration: 0.65 }, 2.0)
+      .to(".line-2",    { scaleX: 1, duration: 0.55, ease: "power2.inOut" }, 2.15)
+      .fromTo(".date",
+        { opacity: 0, letterSpacing: "0.16em" },
+        { opacity: 1, letterSpacing: "0.42em", duration: 0.9, ease: "power2.out" }, 2.3)
+      .to(".countdown",   { opacity: 1, y: 0, duration: 0.85, ease: "power2.out" }, 2.55)
+      .to(".scroll-down", { opacity: 1, y: 0, duration: 0.6 }, 3.0)
+      .to(".audio-toggle",{ opacity: 1, scale: 1, duration: 0.7, ease: "power2.out" }, 0.4);
+  }
+
+  // ---------- PREMIUM CINEMATIC TRANSITION ----------
+  // Phases:
+  //  0.00 — outgoing screen pulls back (scale-up + blur + dim)
+  //  0.05 — gold seam ignites at viewport edge
+  //  0.10 — ink curtain wipes in (top→bottom or reverse)
+  //  0.55 — viewport peaks: visibility swap + golden flash
+  //  0.60 — incoming screen primed (zoomed-in + blurred + transparent)
+  //  0.65 — curtain wipes out the other side
+  //  0.70 — incoming screen materializes (scale-down + un-blur + brighten)
+  //  1.05 — seam fades
+  function curtainTransition(toIdx) {
+    if (transitioning || currentIdx === toIdx) return;
+    transitioning = true;
+
+    const dir = toIdx > currentIdx ? 1 : -1;
+    const startInset = dir > 0 ? "inset(0% 0% 100% 0%)" : "inset(100% 0% 0% 0%)";
+    const endInset   = dir > 0 ? "inset(100% 0% 0% 0%)" : "inset(0% 0% 100% 0%)";
+    const fromScreen = dir > 0 ? screen1 : screen2;
+    const toScreen   = dir > 0 ? screen2 : screen1;
+    const seamFromY  = dir > 0 ? 0 : window.innerHeight;
+    const seamToY    = dir > 0 ? window.innerHeight : 0;
+
+    const tl = gsap.timeline({
+      onComplete: function () {
+        currentIdx = toIdx;
+        transitioning = false;
+        gsap.set([fromScreen, toScreen], { clearProps: "filter,scale,opacity,transform" });
+        gsap.set(curtainSeam,  { clearProps: "opacity,transform,y" });
+        gsap.set(curtainFlash, { clearProps: "opacity" });
+        if (toIdx === 1) revealScreen2();
+      }
+    });
+
+    // 1. Outgoing screen recedes
+    tl.to(fromScreen, {
+      scale: 1.045,
+      filter: "blur(5px)",
+      opacity: 0.5,
+      duration: 0.55,
+      ease: "power2.in"
+    }, 0);
+
+    // 2. Gold seam ignites and travels
+    tl.set(curtainSeam, { y: seamFromY, opacity: 0 })
+      .to(curtainSeam, { opacity: 1, duration: 0.18, ease: "power2.out" }, 0.05)
+      .to(curtainSeam, { y: seamToY, duration: 1.0, ease: "power2.inOut" }, 0.05)
+      .to(curtainSeam, { opacity: 0, duration: 0.22, ease: "power2.in" }, 0.95);
+
+    // 3. Curtain wipes IN (covers screen)
+    tl.set(curtain, { clipPath: startInset, webkitClipPath: startInset })
+      .to(curtain, {
+        clipPath: "inset(0% 0% 0% 0%)",
+        webkitClipPath: "inset(0% 0% 0% 0%)",
+        duration: 0.5,
+        ease: "power3.inOut"
+      }, 0.1);
+
+    // 4. Visibility swap + brief golden flash
+    tl.add(function () {
+      fromScreen.style.visibility = "hidden";
+      toScreen.style.visibility = "visible";
+      gsap.set(toScreen, { scale: 1.06, filter: "blur(8px) brightness(1.35)", opacity: 0 });
+    }, 0.58);
+
+    tl.fromTo(curtainFlash,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.12, ease: "power2.out" }, 0.55)
+      .to(curtainFlash, { opacity: 0, duration: 0.4, ease: "power2.in" }, 0.67);
+
+    // 5. Curtain wipes OUT (reveals new screen)
+    tl.to(curtain, {
+      clipPath: endInset,
+      webkitClipPath: endInset,
+      duration: 0.55,
+      ease: "power3.inOut"
+    }, 0.62);
+
+    // 6. Incoming screen materializes
+    tl.to(toScreen, {
+      scale: 1,
+      filter: "blur(0px) brightness(1)",
+      opacity: 1,
+      duration: 0.75,
+      ease: "power2.out"
+    }, 0.66);
+  }
+
+  // ---------- Reveal Screen 2 ----------
+  function revealScreen2() {
+    if (cardsAnimated) return;
+    cardsAnimated = true;
+    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+    tl.to(screen2.querySelectorAll(".corner"), { opacity: 1, scale: 1, duration: 0.7, stagger: 0.05 }, 0)
+      .to(headLines, { scaleX: 1, duration: 0.55, ease: "power2.inOut" }, 0.05)
+      .to(".details-title, .details-sub", { opacity: 1, y: 0, duration: 0.6, stagger: 0.08 }, 0.15)
+      .to(cards, { opacity: 1, y: 0, duration: 0.7, stagger: 0.18, ease: "power2.out" }, 0.32);
+  }
+
+  // ---------- Triggers ----------
+  document.querySelector(".scroll-down").addEventListener("click", () => curtainTransition(1));
+  document.querySelector(".scroll-up")  .addEventListener("click", () => curtainTransition(0));
+
+  // Helper: are we currently scrolled to the edge of the active screen's scrollable content?
+  function canTriggerNav(dir) {
+    const active = document.getElementById("screen-" + (currentIdx + 1));
+    if (!active) return true;
+    const scroller = active.querySelector(".content-celebration");
+    if (!scroller) return true;
+    const atTop = scroller.scrollTop <= 2;
+    const atBot = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 2;
+    if (dir > 0) return atBot;
+    if (dir < 0) return atTop;
+    return true;
+  }
+
+  let lastWheel = 0;
+  window.addEventListener("wheel", function (e) {
+    if (transitioning) { e.preventDefault(); return; }
+    if (Math.abs(e.deltaY) < 8) return;
+    // Skip if user is interacting with a form field
+    const tag = e.target && e.target.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA") return;
+    const dir = e.deltaY > 0 ? 1 : -1;
+    if (!canTriggerNav(dir)) return; // let native scroll happen inside celebration content
+    const now = Date.now();
+    if (now - lastWheel < 800) return;
+    e.preventDefault();
+    lastWheel = now;
+    curtainTransition(currentIdx + dir);
+  }, { passive: false });
+
+  window.addEventListener("keydown", function (e) {
+    if (transitioning) return;
+    const tag = e.target && e.target.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA") return;
+    const down = ["ArrowDown", "PageDown", " ", "Spacebar"].indexOf(e.key) !== -1;
+    const up   = ["ArrowUp", "PageUp", "Home"].indexOf(e.key) !== -1;
+    const right = e.key === "ArrowRight";
+    const left  = e.key === "ArrowLeft";
+    if (down || right) {
+      if (!canTriggerNav(1)) return;
+      e.preventDefault();
+      curtainTransition(currentIdx + 1);
+    } else if (up || left) {
+      if (!canTriggerNav(-1)) return;
+      e.preventDefault();
+      curtainTransition(currentIdx - 1);
+    }
+  });
+
+  // ---------- Mouse parallax (hero only) ----------
+  let parallaxRAF = null;
+  let mx = 0, my = 0;     // target normalized -1..1
+  let cx = 0, cy = 0;     // current eased values
+
+  function onMouseMove(e) {
+    if (window.innerWidth < 900) return;
+    if (currentIdx !== 0 || transitioning) return;
+    mx = (e.clientX / window.innerWidth  - 0.5) * 2;
+    my = (e.clientY / window.innerHeight - 0.5) * 2;
+    if (!parallaxRAF) parallaxRAF = requestAnimationFrame(updateParallax);
+  }
+
+  function updateParallax() {
+    parallaxRAF = null;
+    cx += (mx - cx) * 0.08;
+    cy += (my - cy) * 0.08;
+
+    if (portraitL) portraitL.style.transform = "translate3d(" + (cx * -14) + "px," + (cy * -10) + "px,0)";
+    if (portraitR) portraitR.style.transform = "translate3d(" + (cx * -14) + "px," + (cy * -10) + "px,0)";
+    if (heroGlow)  heroGlow.style.transform  = "translate(calc(-50% + " + (cx * 18) + "px), calc(-50% + " + (cy * 14) + "px))";
+
+    if (Math.abs(mx - cx) > 0.0015 || Math.abs(my - cy) > 0.0015) {
+      parallaxRAF = requestAnimationFrame(updateParallax);
+    }
+  }
+
+  window.addEventListener("mousemove", onMouseMove, { passive: true });
+
+  let tStartY = 0, tStartT = 0;
+  window.addEventListener("touchstart", function (e) {
+    tStartY = e.touches[0].clientY;
+    tStartT = Date.now();
+  }, { passive: true });
+  window.addEventListener("touchend", function (e) {
+    if (transitioning) return;
+    const dy = tStartY - e.changedTouches[0].clientY;
+    const dt = Date.now() - tStartT;
+    if (Math.abs(dy) < 50 || dt > 900) return;
+    const dir = dy > 0 ? 1 : -1;
+    if (!canTriggerNav(dir)) return;
+    curtainTransition(currentIdx + dir);
+  }, { passive: true });
+
+  // ---------- Countdown ----------
+  // CONFIG: дата торжества (МСК — UTC+3). Поправь если меняется.
+  const WEDDING_DATE = new Date("2026-08-15T16:00:00+03:00").getTime();
+
+  function pad2(n) { return String(Math.max(0, n | 0)).padStart(2, "0"); }
+
+  function tickCountdown() {
+    const diff = WEDDING_DATE - Date.now();
+    if (!cdEls.days) return;
+    if (diff <= 0) {
+      cdEls.days.textContent  = "00";
+      cdEls.hours.textContent = "00";
+      cdEls.mins.textContent  = "00";
+      cdEls.secs.textContent  = "00";
+      if (cdEls.label) cdEls.label.textContent = "Сегодня — наш день";
+      return;
+    }
+    const days  = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins  = Math.floor((diff % 3600000)  / 60000);
+    const secs  = Math.floor((diff % 60000)    / 1000);
+    cdEls.days.textContent  = days >= 100 ? String(days) : pad2(days);
+    cdEls.hours.textContent = pad2(hours);
+    cdEls.mins.textContent  = pad2(mins);
+    cdEls.secs.textContent  = pad2(secs);
+  }
+  tickCountdown();
+  setInterval(tickCountdown, 1000);
+
+  // ---------- Falling gold dust ----------
+  if (dustContainer) {
+    const DUST_COUNT = window.innerWidth < 768 ? 18 : 36;
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < DUST_COUNT; i++) {
+      const d = document.createElement("span");
+      d.className = "dust";
+      d.style.setProperty("--x",      (Math.random() * 100).toFixed(2) + "%");
+      d.style.setProperty("--d",      (12 + Math.random() * 14).toFixed(1) + "s");
+      d.style.setProperty("--delay",  (-(Math.random() * 22)).toFixed(1) + "s");
+      d.style.setProperty("--size",   (1.6 + Math.random() * 3.4).toFixed(1) + "px");
+      d.style.setProperty("--sway",   ((Math.random() - 0.5) * 60).toFixed(0) + "px");
+      d.style.setProperty("--max-op", (0.32 + Math.random() * 0.4).toFixed(2));
+      frag.appendChild(d);
+    }
+    dustContainer.appendChild(frag);
+  }
+
+  // ---------- Audio toggle (background music + transition chime) ----------
+  let audioCtx = null;
+  function getAudioCtx() {
+    if (!audioCtx) {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
+      audioCtx = new Ctx();
+    }
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    return audioCtx;
+  }
+
+  // Synthesized bell chime — used on every curtain transition (no audio file needed)
+  function playChime(direction) {
+    if (!audioToggle || audioToggle.dataset.audioState !== "on") return;
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      // Two oscillators for a softer bell-like dyad (perfect fifth)
+      const fundamental = direction > 0 ? 880 : 740; // A5 forward, F#5 back
+      const fifth       = direction > 0 ? 1318 : 1108; // E6 / C#6
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc1.type = "sine"; osc2.type = "sine";
+      osc1.frequency.value = fundamental;
+      osc2.frequency.value = fifth;
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.045, now + 0.025);
+      gain.gain.exponentialRampToValueAtTime(0.0008, now + 1.6);
+      osc1.connect(gain); osc2.connect(gain);
+      gain.connect(ctx.destination);
+      osc1.start(now); osc2.start(now);
+      osc1.stop(now + 1.7); osc2.stop(now + 1.7);
+    } catch (e) { /* silently ignore */ }
+  }
+
+  function setAudioState(on) {
+    if (!audioToggle) return;
+    audioToggle.dataset.audioState = on ? "on" : "off";
+    audioToggle.setAttribute("aria-label", on ? "Выключить фоновую музыку" : "Включить фоновую музыку");
+    if (on) {
+      // Try to play background audio if a source is configured
+      if (bgAudio && bgAudio.querySelector("source")) {
+        bgAudio.play().catch(() => {});
+      }
+      // Resume audio context for chimes
+      getAudioCtx();
+    } else {
+      if (bgAudio) bgAudio.pause();
+    }
+    try { sessionStorage.setItem("audio_on", on ? "1" : "0"); } catch (e) {}
+  }
+
+  if (audioToggle) {
+    audioToggle.addEventListener("click", function () {
+      const isOn = audioToggle.dataset.audioState === "on";
+      setAudioState(!isOn);
+    });
+    try {
+      // Don't auto-play on load — browsers block autoplay without user gesture.
+      // Instead, just remember the preference for if/when user clicks.
+      // (Reading sessionStorage for telemetry only.)
+      sessionStorage.getItem("audio_on");
+    } catch (e) {}
+  }
+
+  // Hook chime into curtain transition (wrapper preserves the original guard logic)
+  const _origCurtainTransition = curtainTransition;
+  curtainTransition = function (toIdx) {
+    if (transitioning || currentIdx === toIdx) return; // skip chime if no-op
+    const dir = toIdx > currentIdx ? 1 : -1;
+    playChime(dir);
+    return _origCurtainTransition(toIdx);
+  };
+
+  // ============================================================
+  // STAGE 2: Site mode management, admin panel, IndexedDB uploads
+  // ============================================================
+
+  // ---------- Site mode (invitation | celebration) ----------
+  function getSiteMode() {
+    try { return localStorage.getItem("site_mode") || "invitation"; }
+    catch (e) { return "invitation"; }
+  }
+  function setSiteMode(mode) {
+    if (mode !== "invitation" && mode !== "celebration") mode = "invitation";
+    document.body.dataset.siteMode = mode;
+    try { localStorage.setItem("site_mode", mode); } catch (e) {}
+    // Reflect in admin buttons
+    document.querySelectorAll(".admin-mode-btn").forEach(function (btn) {
+      btn.dataset.active = (btn.dataset.mode === mode) ? "true" : "false";
+    });
+    // If switching back to invitation while user is past screen 1, snap to 0
+    if (mode === "invitation" && currentIdx > 1) {
+      // Hide post-1 screens visibility
+      [3, 4, 5].forEach(function(n) {
+        const el = document.getElementById("screen-" + n);
+        if (el) el.style.visibility = "hidden";
+      });
+      currentIdx = 1;
+    }
+  }
+  setSiteMode(getSiteMode());
+
+  // ---------- Admin panel ----------
+  const adminPanel = document.querySelector(".admin-panel");
+
+  function isAdminUrl() {
+    return window.location.hash === "#admin";
+  }
+  function openAdmin() {
+    if (!adminPanel) return;
+    adminPanel.dataset.open = "true";
+    document.body.dataset.adminActive = "true";
+  }
+  function closeAdmin() {
+    if (!adminPanel) return;
+    adminPanel.dataset.open = "false";
+    // Keep adminActive true so admin can manage cards even after closing panel — only revoked on refresh
+  }
+  if (isAdminUrl()) openAdmin();
+  window.addEventListener("hashchange", function () {
+    if (isAdminUrl()) openAdmin();
+  });
+  // Ctrl+Shift+A toggle
+  window.addEventListener("keydown", function (e) {
+    if (e.ctrlKey && e.shiftKey && (e.key === "A" || e.key === "a" || e.code === "KeyA")) {
+      e.preventDefault();
+      if (adminPanel && adminPanel.dataset.open === "true") closeAdmin();
+      else openAdmin();
+    }
+  });
+  document.querySelectorAll("[data-admin-close]").forEach(function (b) {
+    b.addEventListener("click", closeAdmin);
+  });
+  document.querySelectorAll(".admin-mode-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      setSiteMode(btn.dataset.mode);
+    });
+  });
+
+  // ---------- IndexedDB store ----------
+  const DB_NAME = "wedding_store";
+  const DB_VERSION = 1;
+  const STORES = ["greetings", "gallery", "thanks"];
+  let _dbPromise = null;
+
+  function openDB() {
+    if (_dbPromise) return _dbPromise;
+    _dbPromise = new Promise(function (resolve, reject) {
+      const req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onupgradeneeded = function (e) {
+        const db = e.target.result;
+        STORES.forEach(function (name) {
+          if (!db.objectStoreNames.contains(name)) {
+            const opts = (name === "thanks") ? { keyPath: "id" } : { keyPath: "id", autoIncrement: true };
+            db.createObjectStore(name, opts);
+          }
+        });
+      };
+      req.onsuccess = function (e) { resolve(e.target.result); };
+      req.onerror = function (e) { reject(e.target.error); };
+    });
+    return _dbPromise;
+  }
+
+  function dbAdd(storeName, item) {
+    return openDB().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        const tx = db.transaction(storeName, "readwrite");
+        const req = tx.objectStore(storeName).add(item);
+        req.onsuccess = function () { resolve(req.result); };
+        req.onerror = function () { reject(req.error); };
+      });
+    });
+  }
+  function dbPut(storeName, item) {
+    return openDB().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        const tx = db.transaction(storeName, "readwrite");
+        const req = tx.objectStore(storeName).put(item);
+        req.onsuccess = function () { resolve(req.result); };
+        req.onerror = function () { reject(req.error); };
+      });
+    });
+  }
+  function dbGetAll(storeName) {
+    return openDB().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        const tx = db.transaction(storeName, "readonly");
+        const req = tx.objectStore(storeName).getAll();
+        req.onsuccess = function () { resolve(req.result || []); };
+        req.onerror = function () { reject(req.error); };
+      });
+    });
+  }
+  function dbGet(storeName, key) {
+    return openDB().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        const tx = db.transaction(storeName, "readonly");
+        const req = tx.objectStore(storeName).get(key);
+        req.onsuccess = function () { resolve(req.result); };
+        req.onerror = function () { reject(req.error); };
+      });
+    });
+  }
+  function dbDelete(storeName, key) {
+    return openDB().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        const tx = db.transaction(storeName, "readwrite");
+        const req = tx.objectStore(storeName).delete(key);
+        req.onsuccess = function () { resolve(); };
+        req.onerror = function () { reject(req.error); };
+      });
+    });
+  }
+  function dbClear(storeName) {
+    return openDB().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        const tx = db.transaction(storeName, "readwrite");
+        const req = tx.objectStore(storeName).clear();
+        req.onsuccess = function () { resolve(); };
+        req.onerror = function () { reject(req.error); };
+      });
+    });
+  }
+
+  // ---------- Helpers ----------
+  function setStatus(el, msg, kind) {
+    if (!el) return;
+    el.textContent = msg || "";
+    el.dataset.status = kind || "";
+  }
+  function fileToBlob(file) {
+    return Promise.resolve(file); // File is already a Blob
+  }
+  function blobUrl(blob) {
+    return URL.createObjectURL(blob);
+  }
+  function MB(bytes) { return (bytes / (1024 * 1024)).toFixed(1) + " МБ"; }
+  function fmtBytes(b) { if (!b) return "0"; if (b < 1024) return b + " Б"; if (b < 1024 * 1024) return Math.round(b / 1024) + " КБ"; return MB(b); }
+
+  function videoDuration(file) {
+    return new Promise(function (resolve) {
+      const v = document.createElement("video");
+      v.preload = "metadata";
+      v.onloadedmetadata = function () {
+        const d = v.duration;
+        URL.revokeObjectURL(v.src);
+        resolve(isFinite(d) ? d : 0);
+      };
+      v.onerror = function () { resolve(0); };
+      v.src = URL.createObjectURL(file);
+    });
+  }
+
+  // Display selected file name in custom file input
+  document.querySelectorAll(".file-input input[type=file]").forEach(function (inp) {
+    inp.addEventListener("change", function () {
+      const label = inp.parentElement.querySelector(".file-input-name");
+      if (!label) return;
+      if (inp.files && inp.files.length > 1) {
+        label.textContent = inp.files.length + " файлов";
+      } else if (inp.files && inp.files[0]) {
+        const f = inp.files[0];
+        label.textContent = f.name + " · " + fmtBytes(f.size);
+      } else {
+        label.textContent = "не выбрано";
+      }
+    });
+  });
+
+  // ---------- Greeting upload + render ----------
+  const greetingForm   = document.getElementById("greeting-form");
+  const greetingStatus = document.getElementById("greeting-status");
+  const greetingsGrid  = document.getElementById("greetings-grid");
+
+  async function renderGreetings() {
+    if (!greetingsGrid) return;
+    const items = await dbGetAll("greetings").catch(function () { return []; });
+    greetingsGrid.innerHTML = "";
+    if (!items.length) {
+      const p = document.createElement("p");
+      p.className = "empty-state";
+      p.textContent = "Будьте первым, кто оставит поздравление";
+      greetingsGrid.appendChild(p);
+      return;
+    }
+    items.sort(function(a, b){ return (b.createdAt || 0) - (a.createdAt || 0); });
+    items.forEach(function (item) {
+      const card = document.createElement("article");
+      card.className = "greeting-card";
+
+      if (item.photo) {
+        const img = document.createElement("img");
+        img.className = "greeting-media";
+        img.alt = "Фото от " + (item.name || "гостя");
+        img.src = blobUrl(item.photo);
+        img.loading = "lazy";
+        card.appendChild(img);
+      }
+      if (item.video) {
+        const vid = document.createElement("video");
+        vid.className = "greeting-media";
+        vid.src = blobUrl(item.video);
+        vid.controls = true;
+        vid.preload = "metadata";
+        vid.playsInline = true;
+        card.appendChild(vid);
+      }
+      const name = document.createElement("div");
+      name.className = "greeting-name";
+      name.textContent = item.name || "Гость";
+      card.appendChild(name);
+
+      if (item.message) {
+        const msg = document.createElement("div");
+        msg.className = "greeting-message";
+        msg.textContent = item.message;
+        card.appendChild(msg);
+      }
+
+      const del = document.createElement("button");
+      del.className = "card-delete";
+      del.type = "button";
+      del.title = "Удалить";
+      del.textContent = "×";
+      del.addEventListener("click", async function () {
+        if (!confirm("Удалить это поздравление?")) return;
+        await dbDelete("greetings", item.id);
+        renderGreetings();
+        updateStorageStats();
+      });
+      card.appendChild(del);
+
+      greetingsGrid.appendChild(card);
+    });
+  }
+
+  if (greetingForm) {
+    greetingForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const fd = new FormData(greetingForm);
+      const name = (fd.get("name") || "").toString().trim();
+      const message = (fd.get("message") || "").toString().trim();
+      const photoFile = fd.get("photo");
+      const videoFile = fd.get("video");
+
+      if (!name) {
+        setStatus(greetingStatus, "Укажите имя", "error");
+        return;
+      }
+      // Validate video duration ≤ 30s
+      if (videoFile && videoFile.size > 0) {
+        const dur = await videoDuration(videoFile);
+        if (dur > 31) {
+          setStatus(greetingStatus, "Видео длиннее 30 секунд (" + Math.round(dur) + "s)", "error");
+          return;
+        }
+      }
+      const submitBtn = greetingForm.querySelector("button[type=submit]");
+      if (submitBtn) submitBtn.disabled = true;
+      setStatus(greetingStatus, "Сохраняем…", "");
+
+      try {
+        const item = {
+          name: name,
+          message: message || null,
+          photo: (photoFile && photoFile.size > 0) ? photoFile : null,
+          video: (videoFile && videoFile.size > 0) ? videoFile : null,
+          createdAt: Date.now()
+        };
+        await dbAdd("greetings", item);
+        setStatus(greetingStatus, "Спасибо! Ваше поздравление сохранено.", "success");
+        greetingForm.reset();
+        greetingForm.querySelectorAll(".file-input-name").forEach(function (s) { s.textContent = "не выбрано"; });
+        renderGreetings();
+        updateStorageStats();
+      } catch (err) {
+        setStatus(greetingStatus, "Ошибка сохранения: " + (err && err.message ? err.message : "не удалось"), "error");
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+  }
+
+  // ---------- Gallery upload + render (admin) ----------
+  const galleryForm   = document.getElementById("gallery-form");
+  const galleryStatus = document.getElementById("gallery-status");
+  const galleryGrid   = document.getElementById("gallery-grid");
+
+  async function renderGallery() {
+    if (!galleryGrid) return;
+    const items = await dbGetAll("gallery").catch(function () { return []; });
+    galleryGrid.innerHTML = "";
+    if (!items.length) {
+      const p = document.createElement("p");
+      p.className = "empty-state";
+      p.textContent = "Галерея появится после торжества";
+      galleryGrid.appendChild(p);
+      return;
+    }
+    items.sort(function(a, b){ return (b.createdAt || 0) - (a.createdAt || 0); });
+    items.forEach(function (item) {
+      const card = document.createElement("article");
+      card.className = "gallery-card";
+      const isVideo = item.media && item.media.type && item.media.type.startsWith("video/");
+      if (isVideo) {
+        const vid = document.createElement("video");
+        vid.className = "gallery-media";
+        vid.src = blobUrl(item.media);
+        vid.controls = true;
+        vid.preload = "metadata";
+        vid.playsInline = true;
+        card.appendChild(vid);
+      } else if (item.media) {
+        const img = document.createElement("img");
+        img.className = "gallery-media";
+        img.src = blobUrl(item.media);
+        img.alt = "Кадр со свадьбы";
+        img.loading = "lazy";
+        card.appendChild(img);
+      }
+      const del = document.createElement("button");
+      del.className = "card-delete";
+      del.type = "button";
+      del.title = "Удалить";
+      del.textContent = "×";
+      del.addEventListener("click", async function () {
+        if (!confirm("Удалить этот файл из галереи?")) return;
+        await dbDelete("gallery", item.id);
+        renderGallery();
+        updateStorageStats();
+      });
+      card.appendChild(del);
+      galleryGrid.appendChild(card);
+    });
+  }
+
+  if (galleryForm) {
+    galleryForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const inp = galleryForm.querySelector("input[name=media]");
+      const files = inp && inp.files ? Array.from(inp.files) : [];
+      if (!files.length) {
+        setStatus(galleryStatus, "Выберите файлы", "error");
+        return;
+      }
+      const submitBtn = galleryForm.querySelector("button[type=submit]");
+      if (submitBtn) submitBtn.disabled = true;
+      setStatus(galleryStatus, "Загружаем " + files.length + "…", "");
+      try {
+        for (const f of files) {
+          await dbAdd("gallery", { media: f, createdAt: Date.now() });
+        }
+        setStatus(galleryStatus, "Опубликовано: " + files.length + " файл(а/ов)", "success");
+        galleryForm.reset();
+        galleryForm.querySelectorAll(".file-input-name").forEach(function (s) { s.textContent = "не выбрано"; });
+        renderGallery();
+        updateStorageStats();
+      } catch (err) {
+        setStatus(galleryStatus, "Ошибка загрузки: " + (err && err.message ? err.message : "не удалось"), "error");
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+  }
+
+  // ---------- Thanks (single video, admin) ----------
+  const thanksForm    = document.getElementById("thanks-form");
+  const thanksStatus  = document.getElementById("thanks-status");
+  const thanksWrap    = document.getElementById("thanks-video-wrap");
+  const thanksMessage = document.getElementById("thanks-message");
+
+  async function renderThanks() {
+    if (!thanksWrap) return;
+    const item = await dbGet("thanks", "main").catch(function () { return null; });
+    thanksWrap.innerHTML = "";
+    if (!item || !item.video) {
+      const p = document.createElement("p");
+      p.className = "empty-state";
+      p.id = "thanks-empty";
+      p.textContent = "Видео появится после торжества";
+      thanksWrap.appendChild(p);
+      if (thanksMessage) thanksMessage.textContent = "Спасибо, что разделили с нами этот день";
+      return;
+    }
+    const vid = document.createElement("video");
+    vid.className = "thanks-video";
+    vid.src = blobUrl(item.video);
+    vid.controls = true;
+    vid.preload = "metadata";
+    vid.playsInline = true;
+    thanksWrap.appendChild(vid);
+    if (thanksMessage && item.message) thanksMessage.textContent = item.message;
+  }
+
+  if (thanksForm) {
+    thanksForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const inp = thanksForm.querySelector("input[name=video]");
+      const msgInp = thanksForm.querySelector("textarea[name=message]");
+      const file = inp && inp.files && inp.files[0];
+      if (!file) {
+        setStatus(thanksStatus, "Выберите видео", "error");
+        return;
+      }
+      const submitBtn = thanksForm.querySelector("button[type=submit]");
+      if (submitBtn) submitBtn.disabled = true;
+      setStatus(thanksStatus, "Загружаем…", "");
+      try {
+        await dbPut("thanks", {
+          id: "main",
+          video: file,
+          message: (msgInp && msgInp.value && msgInp.value.trim()) || null,
+          createdAt: Date.now()
+        });
+        setStatus(thanksStatus, "Опубликовано", "success");
+        thanksForm.reset();
+        thanksForm.querySelectorAll(".file-input-name").forEach(function (s) { s.textContent = "не выбрано"; });
+        renderThanks();
+        updateStorageStats();
+      } catch (err) {
+        setStatus(thanksStatus, "Ошибка: " + (err && err.message ? err.message : "не удалось"), "error");
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+  }
+
+  // ---------- Admin: clear actions + storage stats ----------
+  document.querySelectorAll("[data-clear-greetings]").forEach(function(b){
+    b.addEventListener("click", async function(){
+      if (!confirm("Удалить все поздравления?")) return;
+      await dbClear("greetings"); renderGreetings(); updateStorageStats();
+    });
+  });
+  document.querySelectorAll("[data-clear-gallery]").forEach(function(b){
+    b.addEventListener("click", async function(){
+      if (!confirm("Очистить галерею?")) return;
+      await dbClear("gallery"); renderGallery(); updateStorageStats();
+    });
+  });
+  document.querySelectorAll("[data-clear-thanks]").forEach(function(b){
+    b.addEventListener("click", async function(){
+      if (!confirm("Сбросить благодарность?")) return;
+      await dbClear("thanks"); renderThanks(); updateStorageStats();
+    });
+  });
+
+  async function updateStorageStats() {
+    const el = document.getElementById("storage-stats");
+    if (!el) return;
+    try {
+      const [g, gal, th] = await Promise.all([
+        dbGetAll("greetings"), dbGetAll("gallery"), dbGetAll("thanks")
+      ]);
+      let totalBytes = 0;
+      [g, gal, th].forEach(function(arr){
+        arr.forEach(function(it){
+          if (it.photo) totalBytes += it.photo.size || 0;
+          if (it.video) totalBytes += it.video.size || 0;
+          if (it.media) totalBytes += it.media.size || 0;
+        });
+      });
+      let storageMsg = g.length + " поздр., " + gal.length + " в галерее, " + (th.length ? "видео-благодарность есть" : "благодарности нет") + " — занято " + fmtBytes(totalBytes);
+      if (navigator.storage && navigator.storage.estimate) {
+        const est = await navigator.storage.estimate();
+        if (est.quota) storageMsg += " из " + fmtBytes(est.quota);
+      }
+      el.textContent = storageMsg;
+    } catch (e) { el.textContent = "—"; }
+  }
+
+  // Initial renders
+  renderGreetings();
+  renderGallery();
+  renderThanks();
+  updateStorageStats();
+
+  // ---------- Extend navigation to 5 screens ----------
+  function maxScreenIdx() {
+    return (document.body.dataset.siteMode === "celebration") ? 4 : 1;
+  }
+  // Re-wrap curtainTransition again to clamp toIdx within current mode
+  const _baseCurtainTransition = curtainTransition;
+  curtainTransition = function (toIdx) {
+    const max = maxScreenIdx();
+    if (toIdx < 0) toIdx = 0;
+    if (toIdx > max) toIdx = max;
+    return _baseCurtainTransition(toIdx);
+  };
+
+  // Generalize the visibility swap for any screen index.
+  // The base curtainTransition only handles 0↔1; we monkey-patch for 0..4.
+  // Approach: after the original swap fires, also handle visibility for 2..4 manually.
+  // Cleanest: replace the visibility-swap by intercepting inside _baseCurtainTransition isn't possible
+  // without rewriting. Instead, observe currentIdx changes via a polling interval on document.body data.
+  // Simpler: hook into wheel/keydown/touch and fully replace navigation with a multi-screen aware version.
+
+  // ---------- Multi-screen navigation (replaces simple 0↔1 logic) ----------
+  function showScreen(idx) {
+    [1,2,3,4,5].forEach(function (n) {
+      const el = document.getElementById("screen-" + n);
+      if (!el) return;
+      el.style.visibility = (n - 1 === idx) ? "visible" : "hidden";
+    });
+    if (idx >= 1) {
+      // Trigger reveal animations for screen 2 (legacy)
+      if (idx === 1) revealScreen2();
+    }
+  }
+
+  // Override curtain transition to support multi-screen visibility swap
+  curtainTransition = function (toIdx) {
+    if (transitioning || currentIdx === toIdx) return;
+    const max = maxScreenIdx();
+    if (toIdx < 0) toIdx = 0;
+    if (toIdx > max) toIdx = max;
+    if (currentIdx === toIdx) return;
+
+    transitioning = true;
+    const dir = toIdx > currentIdx ? 1 : -1;
+    playChime(dir);
+
+    const startInset = dir > 0 ? "inset(0% 0% 100% 0%)" : "inset(100% 0% 0% 0%)";
+    const endInset   = dir > 0 ? "inset(100% 0% 0% 0%)" : "inset(0% 0% 100% 0%)";
+    const fromScreen = document.getElementById("screen-" + (currentIdx + 1));
+    const toScreen   = document.getElementById("screen-" + (toIdx + 1));
+    const seamFromY  = dir > 0 ? 0 : window.innerHeight;
+    const seamToY    = dir > 0 ? window.innerHeight : 0;
+
+    const tl = gsap.timeline({
+      onComplete: function () {
+        currentIdx = toIdx;
+        transitioning = false;
+        gsap.set([fromScreen, toScreen], { clearProps: "filter,scale,opacity,transform" });
+        gsap.set(curtainSeam,  { clearProps: "opacity,transform,y" });
+        gsap.set(curtainFlash, { clearProps: "opacity" });
+        if (toIdx === 1) revealScreen2();
+      }
+    });
+
+    if (fromScreen) {
+      tl.to(fromScreen, { scale: 1.045, filter: "blur(5px)", opacity: 0.5, duration: 0.55, ease: "power2.in" }, 0);
+    }
+
+    tl.set(curtainSeam, { y: seamFromY, opacity: 0 })
+      .to(curtainSeam, { opacity: 1, duration: 0.18, ease: "power2.out" }, 0.05)
+      .to(curtainSeam, { y: seamToY, duration: 1.0, ease: "power2.inOut" }, 0.05)
+      .to(curtainSeam, { opacity: 0, duration: 0.22, ease: "power2.in" }, 0.95);
+
+    tl.set(curtain, { clipPath: startInset, webkitClipPath: startInset })
+      .to(curtain, {
+        clipPath: "inset(0% 0% 0% 0%)", webkitClipPath: "inset(0% 0% 0% 0%)",
+        duration: 0.5, ease: "power3.inOut"
+      }, 0.1);
+
+    tl.add(function () {
+      if (fromScreen) fromScreen.style.visibility = "hidden";
+      if (toScreen) {
+        toScreen.style.visibility = "visible";
+        gsap.set(toScreen, { scale: 1.06, filter: "blur(8px) brightness(1.35)", opacity: 0 });
+      }
+    }, 0.58);
+
+    tl.fromTo(curtainFlash, { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power2.out" }, 0.55)
+      .to(curtainFlash, { opacity: 0, duration: 0.4, ease: "power2.in" }, 0.67);
+
+    tl.to(curtain, {
+      clipPath: endInset, webkitClipPath: endInset,
+      duration: 0.55, ease: "power3.inOut"
+    }, 0.62);
+
+    if (toScreen) {
+      tl.to(toScreen, {
+        scale: 1, filter: "blur(0px) brightness(1)", opacity: 1,
+        duration: 0.75, ease: "power2.out"
+      }, 0.66);
+    }
+  };
+
+  // Wire up nav-prev / nav-next buttons on celebration screens
+  document.querySelectorAll("[data-nav]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      const dir = b.dataset.nav === "next" ? 1 : -1;
+      curtainTransition(currentIdx + dir);
+    });
+  });
+
+  // ---------- Boot ----------
+  function start() { requestAnimationFrame(playIntro); }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start);
+  } else {
+    start();
+  }
+})();
+</script>
+</body>
+</html>
