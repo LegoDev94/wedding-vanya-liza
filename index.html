@@ -354,11 +354,11 @@
     margin-top: 4px;
   }
 
-  /* ==== Audio toggle (top-right floating button) ==== */
+  /* ==== Audio toggle (bottom-right floating button) ==== */
   .audio-toggle {
     position: fixed;
-    top: clamp(20px, 2.6vw, 36px);
-    right: clamp(20px, 2.6vw, 36px);
+    bottom: clamp(30px, 4.5vw, 60px);
+    right: clamp(30px, 4.5vw, 60px);
     width: 44px; height: 44px;
     background: rgba(7, 10, 8, 0.55);
     border: 1px solid rgba(212, 184, 114, 0.32);
@@ -413,6 +413,30 @@
   @keyframes audio-pulse {
     0%   { transform: scale(1);   opacity: 0.7; }
     100% { transform: scale(1.4); opacity: 0;   }
+  }
+
+  /* Floating music notes spawned from audio toggle */
+  .audio-note {
+    position: fixed;
+    bottom: clamp(60px, 7.5vw, 96px);
+    right: clamp(48px, 6vw, 78px);
+    font-family: "Cormorant Garamond", "Times New Roman", serif;
+    font-size: 18px;
+    color: var(--gold);
+    text-shadow:
+      0 0 6px rgba(212, 184, 114, 0.6),
+      0 0 18px rgba(232, 206, 138, 0.35);
+    pointer-events: none;
+    z-index: 9501;
+    opacity: 0;
+    will-change: transform, opacity;
+    animation: note-float 3.4s cubic-bezier(0.32, 0.72, 0.24, 1) forwards;
+  }
+  @keyframes note-float {
+    0%   { transform: translate(0, 0)              scale(0.4) rotate(-8deg);  opacity: 0; }
+    18%  {                                                                    opacity: 0.95; }
+    60%  {                                                                    opacity: 0.7; }
+    100% { transform: translate(var(--note-x, -40px), var(--note-y, -180px)) scale(1.15) rotate(var(--note-rot, 24deg)); opacity: 0; }
   }
 
   /* ============== STAGE 2 — Celebration screens ============== */
@@ -2230,20 +2254,65 @@
     } catch (e) { /* silently ignore */ }
   }
 
+  // Floating music notes from toggle button
+  const NOTE_GLYPHS = ["♪", "♫", "♩", "♬"];
+  let noteInterval = null;
+
+  function spawnNote() {
+    const note = document.createElement("span");
+    note.className = "audio-note";
+    note.textContent = NOTE_GLYPHS[Math.floor(Math.random() * NOTE_GLYPHS.length)];
+    // Random trajectory (mostly up, some lateral drift)
+    const xOff = ((Math.random() - 0.65) * 130).toFixed(0);   // bias left
+    const yOff = (-(140 + Math.random() * 110)).toFixed(0);
+    const rot  = ((Math.random() - 0.5) * 70).toFixed(0);
+    const size = (15 + Math.random() * 10).toFixed(0);
+    const dur  = (2.8 + Math.random() * 1.4).toFixed(2);
+    note.style.setProperty("--note-x", xOff + "px");
+    note.style.setProperty("--note-y", yOff + "px");
+    note.style.setProperty("--note-rot", rot + "deg");
+    note.style.fontSize = size + "px";
+    note.style.animationDuration = dur + "s";
+    document.body.appendChild(note);
+    setTimeout(function () { note.remove(); }, parseFloat(dur) * 1000 + 120);
+  }
+
+  function startNotes() {
+    if (noteInterval) return;
+    spawnNote(); // immediate first note
+    noteInterval = setInterval(function () {
+      spawnNote();
+      // Sometimes spawn a quick follow-up for cluster effect
+      if (Math.random() > 0.55) {
+        setTimeout(spawnNote, 200 + Math.random() * 500);
+      }
+    }, 1500 + Math.random() * 900);
+  }
+
+  function stopNotes() {
+    if (noteInterval) {
+      clearInterval(noteInterval);
+      noteInterval = null;
+    }
+  }
+
   function setAudioState(on) {
     if (!audioToggle) return;
     audioToggle.dataset.audioState = on ? "on" : "off";
     audioToggle.setAttribute("aria-label", on ? "Выключить фоновую музыку" : "Включить фоновую музыку");
     if (on) {
-      // Try to play background audio if a source is configured
       if (bgAudio && bgAudio.querySelector("source")) {
-        bgAudio.play().catch(() => {});
+        bgAudio.play().catch(function(){});
       }
-      // Resume audio context for chimes
       getAudioCtx();
+      startNotes();
     } else {
       if (bgAudio) bgAudio.pause();
+      stopNotes();
     }
+    // Always spawn 1-2 notes on toggle for instant feedback
+    spawnNote();
+    if (on) setTimeout(spawnNote, 220);
     try { sessionStorage.setItem("audio_on", on ? "1" : "0"); } catch (e) {}
   }
 
