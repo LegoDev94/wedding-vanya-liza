@@ -354,11 +354,11 @@
     margin-top: 4px;
   }
 
-  /* ==== Audio toggle (bottom-right floating button) ==== */
+  /* ==== Audio toggle (bottom-right floating button, shifted 50px left from edge) ==== */
   .audio-toggle {
     position: fixed;
     bottom: clamp(30px, 4.5vw, 60px);
-    right: clamp(30px, 4.5vw, 60px);
+    right: clamp(80px, calc(4.5vw + 50px), 110px);
     width: 44px; height: 44px;
     background: rgba(7, 10, 8, 0.55);
     border: 1px solid rgba(212, 184, 114, 0.32);
@@ -415,11 +415,11 @@
     100% { transform: scale(1.4); opacity: 0;   }
   }
 
-  /* Floating music notes spawned from audio toggle */
+  /* Floating music notes spawned from audio toggle (anchor matches button +50px shift) */
   .audio-note {
     position: fixed;
     bottom: clamp(60px, 7.5vw, 96px);
-    right: clamp(48px, 6vw, 78px);
+    right: clamp(98px, calc(6vw + 50px), 128px);
     font-family: "Cormorant Garamond", "Times New Roman", serif;
     font-size: 18px;
     color: var(--gold);
@@ -2321,12 +2321,41 @@
       const isOn = audioToggle.dataset.audioState === "on";
       setAudioState(!isOn);
     });
+
+    // ---------- Auto-start audio on load ----------
+    // Default: audio ON (unless user explicitly muted in this session).
+    let wantsAudio = true;
     try {
-      // Don't auto-play on load — browsers block autoplay without user gesture.
-      // Instead, just remember the preference for if/when user clicks.
-      // (Reading sessionStorage for telemetry only.)
-      sessionStorage.getItem("audio_on");
+      const stored = sessionStorage.getItem("audio_on");
+      if (stored === "0") wantsAudio = false;
     } catch (e) {}
+
+    if (wantsAudio) {
+      // Set UI to "on" state and try to play immediately.
+      setAudioState(true);
+
+      // Browsers (Chrome/Safari/Firefox) block autoplay without user gesture.
+      // Fallback: install a one-shot listener that retries play() on first interaction.
+      if (bgAudio) {
+        const events = ["pointerdown", "touchstart", "keydown", "wheel", "scroll"];
+        const tryAutoplay = function () {
+          if (audioToggle.dataset.audioState === "on" && bgAudio.paused) {
+            bgAudio.play().catch(function () {});
+          }
+        };
+        const onceHandler = function () {
+          tryAutoplay();
+          events.forEach(function (ev) {
+            document.removeEventListener(ev, onceHandler, true);
+          });
+        };
+        events.forEach(function (ev) {
+          document.addEventListener(ev, onceHandler, true);
+        });
+        // Also try when audio metadata loads (in case it wasn't ready at first attempt)
+        bgAudio.addEventListener("canplay", tryAutoplay, { once: true });
+      }
+    }
   }
 
   // Hook chime into curtain transition (wrapper preserves the original guard logic)
