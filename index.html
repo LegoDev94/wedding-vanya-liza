@@ -445,6 +445,125 @@
     100% { transform: translate(var(--note-x, -40px), var(--note-y, -180px)) scale(1.15) rotate(var(--note-rot, 24deg)); opacity: 0; }
   }
 
+  /* ============== Splash entry screen ============== */
+  .splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9700;
+    background:
+      radial-gradient(ellipse at center, rgba(212, 184, 114, 0.05) 0%, transparent 55%),
+      radial-gradient(ellipse at center, var(--ink) 0%, var(--ink-deep) 80%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 32px;
+    animation: splash-appear 0.6s var(--ease-luxe);
+    transition:
+      opacity 1.05s var(--ease-luxe),
+      transform 1.2s var(--ease-luxe),
+      filter 1.05s var(--ease-luxe);
+  }
+  .splash-screen[data-entering="true"] {
+    opacity: 0;
+    transform: scale(1.08);
+    filter: blur(8px);
+    pointer-events: none;
+  }
+  @keyframes splash-appear {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .splash-inner {
+    text-align: center;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: splash-rise 1s var(--ease-luxe) 0.18s both;
+  }
+  @keyframes splash-rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .splash-crest {
+    width: clamp(96px, 12vw, 140px);
+    height: auto;
+    color: var(--gold);
+    margin-bottom: clamp(20px, 3vw, 30px);
+  }
+  .splash-eyebrow {
+    font-family: var(--font-sc);
+    font-size: clamp(10px, 0.95vw, 12px);
+    letter-spacing: 0.55em;
+    text-indent: 0.55em;
+    color: var(--gold);
+    margin-bottom: clamp(14px, 2vw, 22px);
+  }
+  .splash-names {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 7.2vw, 80px);
+    color: var(--ivory);
+    letter-spacing: -0.008em;
+    line-height: 1.04;
+    margin-bottom: clamp(28px, 4vw, 40px);
+  }
+  .splash-names .amp {
+    font-size: 0.78em;
+    margin: 0 clamp(8px, 1.4vw, 14px);
+    display: inline-block;
+    background: linear-gradient(135deg,
+      var(--gold-deep) 0%,
+      var(--gold-bright) 50%,
+      var(--gold) 100%);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+            color: transparent;
+  }
+
+  .splash-cta {
+    font-family: var(--font-sc);
+    font-size: clamp(10px, 1vw, 12px);
+    letter-spacing: 0.5em;
+    text-indent: 0.5em;
+    color: var(--gold);
+    padding: 14px 36px;
+    border: 1px solid rgba(212, 184, 114, 0.45);
+    background: rgba(7, 10, 8, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    margin-bottom: 18px;
+    transition: all 0.4s var(--ease-luxe);
+  }
+  .splash-screen:hover .splash-cta {
+    border-color: var(--gold);
+    color: var(--gold-bright);
+    background: rgba(7, 10, 8, 0.65);
+    transform: translateY(-1px);
+  }
+
+  .splash-hint {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ivory-mute);
+    animation: splash-hint-pulse 2.6s ease-in-out infinite 1.4s;
+  }
+  @keyframes splash-hint-pulse {
+    0%, 100% { opacity: 0.55; }
+    50%      { opacity: 1; }
+  }
+
+  @media (max-width: 480px) {
+    .splash-cta { padding: 12px 28px; letter-spacing: 0.4em; text-indent: 0.4em; }
+    .splash-hint { font-size: 12px; }
+  }
+
   /* ============== STAGE 2 — Celebration screens ============== */
 
   /* Hide celebration-only screens in invitation mode */
@@ -1430,6 +1549,38 @@
 
 <div class="grain" aria-hidden="true"></div>
 
+<!-- ============== SPLASH ENTRY (gates audio autoplay) ============== -->
+<div class="splash-screen" id="splash-screen" role="button" tabindex="0" aria-label="Войти на сайт">
+  <div class="splash-inner">
+    <svg class="splash-crest" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M100 8 V 64" />
+        <path d="M100 22 Q 88 18, 72 12" />
+        <path d="M100 22 Q 112 18, 128 12" />
+        <path d="M100 36 Q 84 36, 66 30" />
+        <path d="M100 36 Q 116 36, 134 30" />
+        <path d="M100 50 Q 88 52, 78 50" />
+        <path d="M100 50 Q 112 52, 122 50" />
+      </g>
+      <g fill="currentColor">
+        <path d="M72 12 q -8 -4, -2 -10 q 9 0, 2 10 z"/>
+        <path d="M128 12 q 8 -4, 2 -10 q -9 0, -2 10 z"/>
+        <path d="M66 30 q -10 -2, -4 -10 q 10 2, 4 10 z"/>
+        <path d="M134 30 q 10 -2, 4 -10 q -10 2, -4 10 z"/>
+        <path d="M78 50 q -8 0, -4 -8 q 8 0, 4 8 z"/>
+        <path d="M122 50 q 8 0, 4 -8 q -8 0, -4 8 z"/>
+        <circle cx="100" cy="6" r="3.4"/>
+        <circle cx="100" cy="6" r="1.4" fill="#0E1310"/>
+      </g>
+    </svg>
+
+    <p class="splash-eyebrow">Сохраните дату · MMXXVI</p>
+    <h1 class="splash-names"><span>Ваня</span><em class="amp">&amp;</em><span>Лиза</span></h1>
+    <button class="splash-cta" type="button">ВОЙТИ</button>
+    <p class="splash-hint">нажмите, чтобы открыть приглашение</p>
+  </div>
+</div>
+
 <main class="stage">
 
   <!-- ============== SCREEN 1: HERO ============== -->
@@ -2368,53 +2519,6 @@
       const isOn = audioToggle.dataset.audioState === "on";
       setAudioState(!isOn);
     });
-
-    // ---------- Auto-start audio on load ----------
-    // Default: try ON unless user explicitly muted in this session.
-    let wantsAudio = true;
-    try {
-      const stored = sessionStorage.getItem("audio_on");
-      if (stored === "0") wantsAudio = false;
-    } catch (e) {}
-
-    if (wantsAudio && bgAudio) {
-      // Attempt to play immediately. UI only flips to "on" if browser allows.
-      setAudioState(true).then(function (ok) {
-        if (!ok) {
-          // Browser blocked autoplay. UI remains "off" (no lying notes).
-          // Install one-shot listeners — first user gesture (anywhere) starts audio.
-          const events = ["pointerdown", "touchstart", "keydown", "wheel", "scroll"];
-          let attempted = false;
-          const onGesture = function () {
-            if (attempted) return;
-            attempted = true;
-            setAudioState(true).then(function (ok2) {
-              // Whether successful or not, listeners are removed (one-shot).
-              cleanup();
-              if (!ok2) {
-                // Couldn't play even with gesture — nothing else to try.
-              }
-            });
-          };
-          const cleanup = function () {
-            events.forEach(function (ev) {
-              document.removeEventListener(ev, onGesture, true);
-            });
-          };
-          events.forEach(function (ev) {
-            document.addEventListener(ev, onGesture, true);
-          });
-          // Also retry on canplay event in case file wasn't ready
-          bgAudio.addEventListener("canplay", function () {
-            if (!attempted && audioToggle.dataset.audioState !== "on") {
-              setAudioState(true).then(function (ok3) {
-                if (ok3) { attempted = true; cleanup(); }
-              });
-            }
-          }, { once: true });
-        }
-      });
-    }
   }
 
   // Hook chime into curtain transition (wrapper preserves the original guard logic)
@@ -3042,11 +3146,75 @@
   });
 
   // ---------- Boot ----------
-  function start() { requestAnimationFrame(playIntro); }
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", start);
+  // Single entry point that fires the hero intro AND attempts audio play.
+  // Audio play is guaranteed to succeed when called from a user-gesture context
+  // (splash click). Has a gesture-fallback safety net otherwise.
+  function bootExperience() {
+    requestAnimationFrame(playIntro);
+
+    let wantsAudio = true;
+    try {
+      if (sessionStorage.getItem("audio_on") === "0") wantsAudio = false;
+    } catch (e) {}
+
+    if (wantsAudio && bgAudio) {
+      setAudioState(true).then(function (ok) {
+        if (!ok) {
+          // Safety net: install gesture listeners if play() still rejected
+          const events = ["pointerdown", "touchstart", "keydown", "wheel", "scroll"];
+          let attempted = false;
+          const onGesture = function () {
+            if (attempted) return;
+            attempted = true;
+            setAudioState(true);
+            events.forEach(function (ev) {
+              document.removeEventListener(ev, onGesture, true);
+            });
+          };
+          events.forEach(function (ev) {
+            document.addEventListener(ev, onGesture, true);
+          });
+        }
+      });
+    }
+  }
+
+  // Splash gate — shows on first session visit, dismissed by click.
+  // Click is a user gesture so subsequent audio.play() is allowed by browser.
+  const splash = document.getElementById("splash-screen");
+  let hasEntered = false;
+  try { hasEntered = sessionStorage.getItem("entered") === "1"; } catch (e) {}
+
+  function dismissSplashAndBoot() {
+    try { sessionStorage.setItem("entered", "1"); } catch (e) {}
+    if (splash) {
+      splash.dataset.entering = "true";
+      setTimeout(function () { if (splash.parentNode) splash.remove(); }, 1300);
+    }
+    bootExperience();
+  }
+
+  if (splash && !hasEntered) {
+    // First visit: wait for user to click "Войти"
+    const onSplashEnter = function (e) {
+      // Allow only main button or Enter/Space key
+      if (e.type === "keydown" && e.key !== "Enter" && e.key !== " " && e.key !== "Spacebar") return;
+      e.preventDefault && e.preventDefault();
+      splash.removeEventListener("click", onSplashEnter);
+      splash.removeEventListener("keydown", onSplashEnter);
+      dismissSplashAndBoot();
+    };
+    splash.addEventListener("click", onSplashEnter);
+    splash.addEventListener("keydown", onSplashEnter);
+    splash.focus();
   } else {
-    start();
+    // Returning visitor (same session) — skip splash and boot directly
+    if (splash) splash.remove();
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", bootExperience);
+    } else {
+      bootExperience();
+    }
   }
 })();
 </script>
