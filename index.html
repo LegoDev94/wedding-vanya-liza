@@ -420,17 +420,22 @@
     position: fixed;
     bottom: clamp(60px, 7.5vw, 96px);
     right: clamp(98px, calc(6vw + 50px), 128px);
-    font-family: "Cormorant Garamond", "Times New Roman", serif;
-    font-size: 18px;
+    font-size: 20px;
     color: var(--gold);
-    text-shadow:
-      0 0 6px rgba(212, 184, 114, 0.6),
-      0 0 18px rgba(232, 206, 138, 0.35);
     pointer-events: none;
     z-index: 9501;
     opacity: 0;
     will-change: transform, opacity;
     animation: note-float 3.4s cubic-bezier(0.32, 0.72, 0.24, 1) forwards;
+    line-height: 0;
+  }
+  .audio-note svg {
+    display: block;
+    height: 1em;
+    width: auto;
+    filter:
+      drop-shadow(0 0 5px rgba(212, 184, 114, 0.6))
+      drop-shadow(0 0 14px rgba(232, 206, 138, 0.3));
   }
   @keyframes note-float {
     0%   { transform: translate(0, 0)              scale(0.4) rotate(-8deg);  opacity: 0; }
@@ -2254,19 +2259,38 @@
     } catch (e) { /* silently ignore */ }
   }
 
-  // Floating music notes from toggle button
-  const NOTE_GLYPHS = ["♪", "♫", "♩", "♬"];
+  // Floating music notes from toggle button (SVG icons — reliable across fonts)
+  const NOTE_SVGS = [
+    // Quarter note ♩
+    '<svg viewBox="0 0 14 26" xmlns="http://www.w3.org/2000/svg">' +
+      '<ellipse cx="5" cy="21" rx="4.2" ry="2.9" fill="currentColor" transform="rotate(-18 5 21)"/>' +
+      '<line x1="9" y1="20" x2="9" y2="3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>' +
+    '</svg>',
+    // Eighth note ♪
+    '<svg viewBox="0 0 18 26" xmlns="http://www.w3.org/2000/svg">' +
+      '<ellipse cx="5" cy="21" rx="4.2" ry="2.9" fill="currentColor" transform="rotate(-18 5 21)"/>' +
+      '<line x1="9" y1="20" x2="9" y2="3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>' +
+      '<path d="M9 3 Q 16 5, 14 13 Q 14 9, 11 8" fill="currentColor"/>' +
+    '</svg>',
+    // Beamed eighth notes ♫
+    '<svg viewBox="0 0 24 26" xmlns="http://www.w3.org/2000/svg">' +
+      '<ellipse cx="4" cy="21" rx="3.4" ry="2.5" fill="currentColor" transform="rotate(-18 4 21)"/>' +
+      '<ellipse cx="16" cy="21" rx="3.4" ry="2.5" fill="currentColor" transform="rotate(-18 16 21)"/>' +
+      '<line x1="7" y1="20" x2="7" y2="6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>' +
+      '<line x1="19" y1="20" x2="19" y2="4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>' +
+      '<path d="M6.4 6 L 19.6 4 L 19.6 7.5 L 6.4 9.5 Z" fill="currentColor"/>' +
+    '</svg>'
+  ];
   let noteInterval = null;
 
   function spawnNote() {
     const note = document.createElement("span");
     note.className = "audio-note";
-    note.textContent = NOTE_GLYPHS[Math.floor(Math.random() * NOTE_GLYPHS.length)];
-    // Random trajectory (mostly up, some lateral drift)
-    const xOff = ((Math.random() - 0.65) * 130).toFixed(0);   // bias left
+    note.innerHTML = NOTE_SVGS[Math.floor(Math.random() * NOTE_SVGS.length)];
+    const xOff = ((Math.random() - 0.65) * 130).toFixed(0);
     const yOff = (-(140 + Math.random() * 110)).toFixed(0);
     const rot  = ((Math.random() - 0.5) * 70).toFixed(0);
-    const size = (15 + Math.random() * 10).toFixed(0);
+    const size = (18 + Math.random() * 12).toFixed(0);
     const dur  = (2.8 + Math.random() * 1.4).toFixed(2);
     note.style.setProperty("--note-x", xOff + "px");
     note.style.setProperty("--note-y", yOff + "px");
