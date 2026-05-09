@@ -2019,7 +2019,7 @@
 </button>
 
 <!-- Фоновая музыка — заменить bg-sound.mp3 на свой трек если нужно -->
-<audio class="bg-audio" loop preload="none">
+<audio class="bg-audio" loop preload="auto">
   <source src="bg-sound.mp3" type="audio/mpeg" />
 </audio>
 
@@ -2485,9 +2485,20 @@
     if (!bgAudio || !bgAudio.querySelector("source")) {
       return Promise.resolve(false);
     }
+    // Force load if browser hasn't started yet (defensive — preload="auto" should handle)
+    if (bgAudio.readyState === 0) {
+      try { bgAudio.load(); } catch (e) {}
+    }
+    bgAudio.muted = false;
+    bgAudio.volume = 1.0;
     const p = bgAudio.play();
     if (p && typeof p.then === "function") {
-      return p.then(function () { return true; }).catch(function () { return false; });
+      return p.then(function () {
+        return true;
+      }).catch(function (err) {
+        console.warn("[audio] play() rejected:", err && err.name, err && err.message);
+        return false;
+      });
     }
     return Promise.resolve(true);
   }
@@ -3206,7 +3217,6 @@
     };
     splash.addEventListener("click", onSplashEnter);
     splash.addEventListener("keydown", onSplashEnter);
-    splash.focus();
   } else {
     // Returning visitor (same session) — skip splash and boot directly
     if (splash) splash.remove();
