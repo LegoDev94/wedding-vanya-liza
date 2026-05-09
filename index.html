@@ -458,16 +458,16 @@
     justify-content: center;
     cursor: pointer;
     padding: 32px;
-    animation: splash-appear 0.6s var(--ease-luxe);
+    animation: splash-appear 0.5s var(--ease-luxe);
     transition:
-      opacity 1.05s var(--ease-luxe),
-      transform 1.2s var(--ease-luxe),
-      filter 1.05s var(--ease-luxe);
+      opacity 0.7s var(--ease-luxe),
+      transform 0.8s var(--ease-luxe),
+      filter 0.7s var(--ease-luxe);
   }
   .splash-screen[data-entering="true"] {
     opacity: 0;
-    transform: scale(1.08);
-    filter: blur(8px);
+    transform: scale(1.06);
+    filter: blur(6px);
     pointer-events: none;
   }
   @keyframes splash-appear {
@@ -3196,30 +3196,50 @@
   let hasEntered = false;
   try { hasEntered = sessionStorage.getItem("entered") === "1"; } catch (e) {}
 
-  function dismissSplashAndBoot() {
-    try { sessionStorage.setItem("entered", "1"); } catch (e) {}
-    if (splash) {
-      splash.dataset.entering = "true";
-      setTimeout(function () { if (splash.parentNode) splash.remove(); }, 1300);
-    }
-    bootExperience();
-  }
-
-  if (splash && !hasEntered) {
-    // First visit: wait for user to click "Войти"
+  if (splash) {
+    // Always show splash on every entry — guarantees a fresh user gesture
+    // for audio.play() and gives a consistent ceremonial entry experience.
     const onSplashEnter = function (e) {
-      // Allow only main button or Enter/Space key
       if (e.type === "keydown" && e.key !== "Enter" && e.key !== " " && e.key !== "Spacebar") return;
       e.preventDefault && e.preventDefault();
+
+      // ============ CRITICAL: kick audio FIRST, while gesture is freshest ============
+      let playPromise = null;
+      let wantsAudio = true;
+      try { if (sessionStorage.getItem("audio_on") === "0") wantsAudio = false; } catch (er) {}
+      if (wantsAudio && bgAudio) {
+        bgAudio.muted = false;
+        bgAudio.volume = 1.0;
+        try { playPromise = bgAudio.play(); } catch (er) {}
+      }
+
+      // Cleanup listeners
       splash.removeEventListener("click", onSplashEnter);
       splash.removeEventListener("keydown", onSplashEnter);
-      dismissSplashAndBoot();
+
+      // Dismiss splash + boot rest of experience
+      try { sessionStorage.setItem("entered", "1"); } catch (er) {}
+      splash.dataset.entering = "true";
+      setTimeout(function () { if (splash.parentNode) splash.remove(); }, 900);
+      requestAnimationFrame(playIntro);
+
+      // Handle play() resolution — update UI based on actual outcome
+      if (playPromise && playPromise.then) {
+        playPromise.then(function () {
+          updateAudioUI(true);
+          getAudioCtx();
+          spawnNote();
+          setTimeout(spawnNote, 220);
+          try { sessionStorage.setItem("audio_on", "1"); } catch (er) {}
+        }).catch(function (err) {
+          console.warn("[audio] splash play rejected:", err && err.name, err && err.message);
+        });
+      }
     };
     splash.addEventListener("click", onSplashEnter);
     splash.addEventListener("keydown", onSplashEnter);
   } else {
-    // Returning visitor (same session) — skip splash and boot directly
-    if (splash) splash.remove();
+    // No splash element (defensive) — boot directly
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", bootExperience);
     } else {
